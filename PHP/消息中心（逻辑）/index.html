@@ -23,7 +23,7 @@
 
 
 <meta name="description" content="前言
-Laravel的队列可以用在轻量级的队列需求中。比如我们系统中的短信、邮件等功能，这些功能有一些普遍的特征，异步、重试、并发控制等。Laravel现在主要支持的队列服务有Null、Sync...">
+在构建web应用的时候，很多功能需要我们即时更新信息。当服务器上的数据被更新后，能够在客户端即时且无刷新的同步信息。为了解决这个问题，出现了websocket协议。 它可以使服务器和客户端...">
 
 
 <meta name="robots" content="all">
@@ -34,7 +34,7 @@ Laravel的队列可以用在轻量级的队列需求中。比如我们系统中�
 
 <title>
     
-    队列 |
+    消息中心（逻辑） |
     
     SexyPhoenix的博客
 </title>
@@ -150,9 +150,9 @@ Laravel的队列可以用在轻量级的队列需求中。比如我们系统中�
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="队列">
+        <h1 id="消息中心（逻辑）">
             
-            队列
+            消息中心（逻辑）
             
         </h1>
         <div class="post-meta">
@@ -186,21 +186,15 @@ Laravel的队列可以用在轻量级的队列需求中。比如我们系统中�
     
     <div class="post-body post-content">
         <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><hr>
-<p>Laravel的队列可以用在轻量级的队列需求中。比如我们系统中的短信、邮件等功能，这些功能有一些普遍的特征，异步、重试、并发控制等。Laravel现在主要支持的队列服务有Null、Sync、Database、Redis、Beanstalkd、Sqs。<br>在我们的项目中（消息中心、人事）用的主要是redis，接下来我会介绍下队列基于redis驱动的运行机制。</p>
+<p>在构建web应用的时候，很多功能需要我们即时更新信息。当服务器上的数据被更新后，能够在客户端即时且无刷新的同步信息。为了解决这个问题，出现了websocket协议。 它可以使服务器和客户端一直保持通信，且通信是双向的。而Laravel的事件广播让Websocket获取事件变的更加方便。<br>在我们的项目中（消息中心）用的就是Laravel的事件广播机制，接下来我会介绍下消息中心是如何运行的。</p>
 <h4 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h4><hr>
-<p>Laravel启动后，加载config/app.php的providers数组中的服务提供者 QueueServiceProvider，在队列服务提供者中，已经注册了一系列相关服务。<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/6.png" alt="image"></p>
-<p>在.env配置文件中，我们设置了QUEUE_DRIVER为redis，系统启动后会自动生成Redis连接，同时注册了Work消费者，队列监听器以及错误服务。在queue.php和database.php配置中都默认了相关的redis设置。</p>
-<h4 id="任务调度"><a href="#任务调度" class="headerlink" title="任务调度"></a>任务调度</h4><hr>
-<p>调度如下：<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/7.png" alt="image"></p>
-<p>laravel 的队列服务由两个进程控制，一个是事件生产者（黑线），一个是事件消费者（黄线）。<br>有三个队列，主队列 queues：default（下面default代替），延时队列 queues：default：delayed（下面delayed代替），待处理队列  queues：default：reserved（下面reserved代替）。所有的队列事件都由事件消费者去消费主队列中的事件。（队列名称default在queue.php中被定义）</p>
-<h6 id="1-事件触发：dispatch-new-Event-；"><a href="#1-事件触发：dispatch-new-Event-；" class="headerlink" title="1. 事件触发：dispatch(new Event())；"></a>1. 事件触发：dispatch(new Event())；</h6><p>事件触发后，dispatch判断Event是否继承队列类，是，将事件分发到队列执行流程中。队列执行流程会根据Event的延时属性判断，否，将Event放到即时处理queues：default 队列中，是，将Event放入延时 queues：default：delayed 队列中。</p>
-<h6 id="2-消费：php-artisan-queue-work"><a href="#2-消费：php-artisan-queue-work" class="headerlink" title="2. 消费：php artisan queue:work"></a>2. 消费：php artisan queue:work</h6><p>图中A、B、C、D为消费者进程依次执行步骤，淡黄色背景的代码备注都为对队列的操作命令（predis 实现redis api），每个备注里面对事件的操作要么一起成功，要么一起失败（Lua脚本）。</p>
-<h6 id="3-A：-对delayed、default队列操作"><a href="#3-A：-对delayed、default队列操作" class="headerlink" title="3. A： 对delayed、default队列操作"></a>3. A： 对delayed、default队列操作</h6><p>A1：取出小于当前时间的（时间戳）所有Event，赋给val，删除delayed队列中0到val.length长度的Event（redis的有序集合有一个分数，有序集合根据这个分数从小到大排序，这里的时间戳就是分数）。<br>A2：将上面获取的Event，放入到主队列 default。</p>
-<h6 id="4-B：-对reserved、default队列操作"><a href="#4-B：-对reserved、default队列操作" class="headerlink" title="4. B： 对reserved、default队列操作"></a>4. B： 对reserved、default队列操作</h6><p>B1：取出小于当前时间的所有Event，赋给val，删除reserved队列中0到val长度的Event。<br>B2：将上面获取的Event，放入到主队列 default。</p>
-<h6 id="5-C：-对default、reserved队列操作"><a href="#5-C：-对default、reserved队列操作" class="headerlink" title="5. C： 对default、reserved队列操作"></a>5. C： 对default、reserved队列操作</h6><p>C1：取出主队列中的所有Event。<br>C2：将Event放入reserved，且记录Event的执行次数（保留Event，由D执行后，根据Event执行结果处理这些Event）。</p>
-<h6 id="6-D：-处理Event（由C步骤得到的Event，交给D）"><a href="#6-D：-处理Event（由C步骤得到的Event，交给D）" class="headerlink" title="6. D： 处理Event（由C步骤得到的Event，交给D）"></a>6. D： 处理Event（由C步骤得到的Event，交给D）</h6><p>根据得到的Event依次执行（也就是通知监听这个Event的所有监听者），同时删除reserved队列的相对应的Event（无论执行失败还是成功），如果执行失败会将任务放入reserved队列中，执行时间为1540097000（1540096910 + 90，90为设置的延时时间），以便下次执行。</p>
+<p>WebService是一种跨编程语言和跨操作系统平台的远程调用技术，可以让客户端调用服务端上面的方法。消息中心通过WebService技术，添加或者取消代办事件。<br>消息中心的事件广播是基于redis驱动的同步队列。<br>socket.io是nodejs对websocket协议的封装。socket.io分为客户端和服务端，通过websocket协议保持浏览器与服务器的双向通信。<br>laravel-echo-server 使用 socket.io 实现了Laravel 广播的服务端。<br>laravel-echo 是Laravel广播的客户端，支持socket.io 和 pusher，消息中心用的是socket.io<br>redis Pub/Sub ： redis使用字典这种数据类型实现了发布/订阅的功能，laravel-echo-server就是redis Pub/Sub 的订阅者，消费者进程向redis里面发布了一条事件，redis 通过Pub/Sub功能通知了laravel-echo-server。</p>
+<h4 id="消息广播"><a href="#消息广播" class="headerlink" title="消息广播"></a>消息广播</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/1.png" alt="image"><br>现在的代办功能其实分成了两个部分，第一个部分放在了新oa的event应用下，用于对事件信息的持久化以及对信息中心的通知。第二部分放在了信息中心系统（focusmessage），用于对用户客户端即时且无刷新的信息同步。</p>
+<h6 id="1-代办事件添加-删除"><a href="#1-代办事件添加-删除" class="headerlink" title="1. 代办事件添加/删除"></a>1. 代办事件添加/删除</h6><p>第三应用通过调用web api 将信息推送到webservice Service（A），Service端先对第三应用的ip做了判断，看是否在允许的地址里。通过，再对账号以及密码进行验证。两种验证只要有一种失败，就会返回验证失败信息。<br>验证通过后，信息进行持久化，写入数据库（B）以及更新日历（C），最后通知信息中心（D）。</p>
+<h6 id="2-消息中心"><a href="#2-消息中心" class="headerlink" title="2. 消息中心"></a>2. 消息中心</h6><p>消息中心获取到信息的更新，会对信息的来源ip做白名单判断，失败返回403，通过后广播这条信息，也就是推送到redis主队列中（E），消费者进程进行publish（F），laravel-echo-server接受到发布的信息后（G），通知socket.io service。 因为socket.io service和socket.io client 一直保持通信且一直监控相关频道中的事件，符合此频道中的事件后，发送给 socket.io client 后，laravel-echo 通过 socket.io 接受到信息，解析出信息后，显示给用户。</p>
 <h4 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h4><hr>
-<p>以上就是Laravel队列所有的执行流程，当然里面包括执行失败的错误处理、如何通知监听者等细节都没讲，大家可以自行分析代码理解。</p>
+<p>本来也想在本章写下如何搭建我们的信息中心，但想想感觉搭建的内容还是比较多的，就将如何搭建内容放在了下一章。此章就对待办事项的逻辑做了一下梳理。</p>
 
     </div>
     
@@ -219,17 +213,17 @@ Laravel的队列可以用在轻量级的队列需求中。比如我们系统中�
 </article>
 <div class="article-nav prev-next-wrap clearfix">
     
-    <a href="/OAuth2-0/" class="pre-post btn btn-default" title='OAuth2.0'>
+    <a href="/PHP/消息中心（实现）/" class="pre-post btn btn-default" title='消息中心（实现）'>
         <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
         <span class="hidden-xs">
-            OAuth2.0</span>
+            消息中心（实现）</span>
     </a>
     
     
-    <a href="/用户认证/" class="next-post btn btn-default" title='用户认证'>
+    <a href="/PHP/API认证系统Passport/" class="next-post btn btn-default" title='API认证系统Passport'>
         <span class="hidden-lg">下一篇</span>
         <span class="hidden-xs">
-            用户认证</span><i class="fa fa-angle-right fa-fw"></i>
+            API认证系统Passport</span><i class="fa fa-angle-right fa-fw"></i>
     </a>
     
 </div>
@@ -265,7 +259,7 @@ gitalk.render('gitalk-container');
             文章目录
         </h3>
         
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#背景知识"><span class="toc-text">背景知识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#任务调度"><span class="toc-text">任务调度</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-事件触发：dispatch-new-Event-；"><span class="toc-text">1. 事件触发：dispatch(new Event())；</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-消费：php-artisan-queue-work"><span class="toc-text">2. 消费：php artisan queue:work</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-A：-对delayed、default队列操作"><span class="toc-text">3. A： 对delayed、default队列操作</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-B：-对reserved、default队列操作"><span class="toc-text">4. B： 对reserved、default队列操作</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#5-C：-对default、reserved队列操作"><span class="toc-text">5. C： 对default、reserved队列操作</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#6-D：-处理Event（由C步骤得到的Event，交给D）"><span class="toc-text">6. D： 处理Event（由C步骤得到的Event，交给D）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结尾"><span class="toc-text">结尾</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#背景知识"><span class="toc-text">背景知识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#消息广播"><span class="toc-text">消息广播</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-代办事件添加-删除"><span class="toc-text">1. 代办事件添加/删除</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-消息中心"><span class="toc-text">2. 消息中心</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结尾"><span class="toc-text">结尾</span></a></li></ol>
         
     </div>
 </aside>
