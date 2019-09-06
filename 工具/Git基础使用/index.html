@@ -1,0 +1,326 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="SexyPhoenix的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://sexyphoenix.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
+
+
+<meta name="description" content="前言
+Git是版本控制系统，由Linux开源社区开发。与其他的版本系统相比，Git更加快速，便捷。主要是Git存储的是快照，而非差异性比较。并且绝大数操作都是访问本地文件和资源，没有网络时也可以...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    Git基础使用 |
+    
+    SexyPhoenix的博客
+</title>
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://raw.githubusercontent.com/SexyPhoenix/sexyphoenix.github.io/master/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <div class="branding">
+            
+            <h2>
+                I do and I understand
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://sexyphoenix.github.io">
+                        SexyPhoenix的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/PHP/"><i class="fa "></i>
+                                PHP</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/MySQL/"><i class="fa "></i>
+                                MySQL</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/网络/"><i class="fa "></i>
+                                网络</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/安全/"><i class="fa "></i>
+                                安全</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/ElasticSearch/"><i class="fa "></i>
+                                ElasticSearch</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/工具/"><i class="fa "></i>
+                                工具</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Git基础使用">
+            
+            Git基础使用
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/工具/">工具</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/09/06</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><hr>
+<p>Git是版本控制系统，由Linux开源社区开发。与其他的版本系统相比，Git更加快速，便捷。主要是Git存储的是快照，而非差异性比较。并且绝大数操作都是访问本地文件和资源，没有网络时也可以直接提交，等到有网时再推送到远程仓库。对于文件的历史也是直接拉取本地，瞬间完成。</p>
+<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><hr>
+<p>解决一下场景遇到的问题<br><br>业务：个人信息的需求。<br><br>Coder：码码码码码码。。。（进行中）<br><br>安全部门：怎么档案的信息改下id，能看到别人的档案，赶紧修复。<br><br>Coder：个人信息还没做好，档案修复和个人信息文件又存在交叉，不能提交，该怎么办？<br></p>
+<h4 id="文件状态变化周期"><a href="#文件状态变化周期" class="headerlink" title="文件状态变化周期"></a>文件状态变化周期</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/1.png" alt="image"><br></p>
+<p>文件的状态只有两种：未跟踪（untracked）和已跟踪（unmodified、modified、staged）</p>
+<h6 id="1-工作目录下创建new-php文件"><a href="#1-工作目录下创建new-php文件" class="headerlink" title="1. 工作目录下创建new.php文件"></a>1. 工作目录下创建new.php文件</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/2.jpg" alt="image"><br></p>
+<p>执行 git status，可以发现new.php还没有被git跟踪</p>
+<h5 id="2-跟踪new-php文件"><a href="#2-跟踪new-php文件" class="headerlink" title="2. 跟踪new.php文件"></a>2. 跟踪new.php文件</h5><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/3.jpg" alt="image"> <br><br>执行git add . 后，文件被放入暂存区（staged）</p>
+<h6 id="3-修改new-php的内容"><a href="#3-修改new-php的内容" class="headerlink" title="3. 修改new.php的内容"></a>3. 修改new.php的内容</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/4.jpg" alt="image"><br><br>git status 后，出现 Changes not staged for commit，说明跟踪的文件已被修改，还未放入在暂存区</p>
+<h6 id="4-暂存修改的new-php"><a href="#4-暂存修改的new-php" class="headerlink" title="4. 暂存修改的new.php"></a>4. 暂存修改的new.php</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/5.jpg" alt="image"><br><br>git add 是个多功能的命令，既可以将未跟踪的文件放入暂存区，也可以将修改的文件放入暂存区，当然它还有其他的一些功能。从上面的图我们可以看到，修改的文件被放入到暂存区了。</p>
+<h6 id="5-提交，生成快照"><a href="#5-提交，生成快照" class="headerlink" title="5. 提交，生成快照"></a>5. 提交，生成快照</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/6.jpg" alt="image"><br><br>git commit -m “add new” 后，已生成此次的快照，校验和为 dd90005 <br><br>note ： git commit -a -m ‘’add new”， 可以跳过git add<br></p>
+<h6 id="6-删除提交"><a href="#6-删除提交" class="headerlink" title="6. 删除提交"></a>6. 删除提交</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/7.jpg" alt="image"><br><br>git rm后，重新提交，文件在工作目录和暂存区中都被删除。</p>
+<h4 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h4><p>git的原理由5个对象实现，想知道具体的可以搜下资料看看，这里主要讲如何解决背景出现的问题。<br><br>git log –oneline –decorate –graph –all  //先执行此命令查看工作目录所处的分支<br><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/18.jpg" alt="image"><br></p>
+<p>根据上图可以看到工作目录处于master分支，HEAD指向master分支，流程图：<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/8.png" alt="image"><br></p>
+<h6 id="1-个人信息需求"><a href="#1-个人信息需求" class="headerlink" title="1.个人信息需求"></a>1.个人信息需求</h6><p>git branch issue //此时HEAD还是指向master<br><br>创建issue分支，这点很重要，当有新需求过来的时候，一定要创建自己的分支。保持主分支为原样。<br><br>git checkout issue //切换到issue分支，HEAD指向issue<br><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/9.png" alt="image"><br></p>
+<p>流程图：<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/10.png" alt="image"><br></p>
+<h6 id="2-码码码码码码"><a href="#2-码码码码码码" class="headerlink" title="2. 码码码码码码"></a>2. 码码码码码码</h6><p>在issue分支下，工作，并提交到暂存区<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/11.jpg" alt="image"><br><br>可以看到生成了校验码为c7abbef的快照，流程图：<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/12.png" alt="image"><br></p>
+<h6 id="3-档案信息修复"><a href="#3-档案信息修复" class="headerlink" title="3. 档案信息修复"></a>3. 档案信息修复</h6><p>git checkout master //切换master主分支，HEAD指向master<br><br>git branch issue2 //创建issue2分支，HEAD指向master<br><br>git checkout issue2 //HEAD指向issue2<br><br>修复bug，同提交，产生3a59570快照。<br><br>此时流程图：<br><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/13.png" alt="image"><br></p>
+<p>git checkout master //切换master分支<br><br>git merge issue2 //issue2分支的内容合并到master分支<br><br>流程图：<br><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/14.png" alt="image"><br><br>此时的合并只是将master指针前移。<br><br>git branch -d issue2 //删除issue2分支<br></p>
+<h6 id="4-继续个人信息"><a href="#4-继续个人信息" class="headerlink" title="4. 继续个人信息"></a>4. 继续个人信息</h6><p>git checkout issue //切换issue分支<br><br>码码码码码。。。。<br><br>功能实现继续提交<br><br>流程图：<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/15.png" alt="image"><br><br>git checkout master //切换到master主分支<br><br>git merge issue //合并issue分支到master主分支<br></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Git/16.png" alt="image"><br><br>此时的合并就不是简单的将master指针前移，因为这两个分支的共同分支是9ffb7ee，而不是3a59570，此次合并做了两次操作，一是将94517a9、9ffb7ee、3a59570的结果做了一次新的快照，二是对结果做了一次新的提交10af497。</p>
+<p>注：此时如果有文件冲突，出现 CONFLICT (content): Merge conflict ，可以到冲突的文件中，修改冲突的内容，再次 git commit -a -m “fix confilct”</p>
+<p>关于git的使用就讲到这了，上面讲的这些也只是git的基本使用。<br>当我们再去深入的了解的话，就会发现用git也可以实现运维系统发布那一套流程，每一个开发者将自己私有库的更新发布到自己的公共库上，再由管理者去拉取开发者的公共库更新，管理者发现没有问题，再推送到主仓库。</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/ElasticSearch/ElasticSearch安装/" class="pre-post btn btn-default" title='ElasticSearch安装'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            ElasticSearch安装</span>
+    </a>
+    
+    
+    <a href="/安全/HTTPS部署/" class="next-post btn btn-default" title='HTTPS部署'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            HTTPS部署</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "en",
+    clientID: "9406f48c8041bdb83500",
+    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
+    repo: "sexyphoenix.github.io",
+    owner: "sexyphoenix",
+    admin: ["sexyphoenix"],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+});
+gitalk.render('gitalk-container');
+</script>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文件状态变化周期"><span class="toc-text">文件状态变化周期</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-工作目录下创建new-php文件"><span class="toc-text">1. 工作目录下创建new.php文件</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-跟踪new-php文件"><span class="toc-text">2. 跟踪new.php文件</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#3-修改new-php的内容"><span class="toc-text">3. 修改new.php的内容</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-暂存修改的new-php"><span class="toc-text">4. 暂存修改的new.php</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#5-提交，生成快照"><span class="toc-text">5. 提交，生成快照</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#6-删除提交"><span class="toc-text">6. 删除提交</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分支"><span class="toc-text">分支</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-个人信息需求"><span class="toc-text">1.个人信息需求</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-码码码码码码"><span class="toc-text">2. 码码码码码码</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-档案信息修复"><span class="toc-text">3. 档案信息修复</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-继续个人信息"><span class="toc-text">4. 继续个人信息</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

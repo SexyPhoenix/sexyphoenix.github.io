@@ -1,0 +1,374 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="SexyPhoenix的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://sexyphoenix.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
+
+
+<meta name="description" content="前言
+考虑到HTTP的安全性问题，现在很多网站已经将HTTP升级到了HTTP + SSL（HTTPS）。但也并不是所有的HTTPS站点就是安全的，也可能存在中间人的攻击（不是权威的CA机构颁发的...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    HTTPS部署 |
+    
+    SexyPhoenix的博客
+</title>
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://raw.githubusercontent.com/SexyPhoenix/sexyphoenix.github.io/master/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <div class="branding">
+            
+            <h2>
+                I do and I understand
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://sexyphoenix.github.io">
+                        SexyPhoenix的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/PHP/"><i class="fa "></i>
+                                PHP</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/MySQL/"><i class="fa "></i>
+                                MySQL</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/网络/"><i class="fa "></i>
+                                网络</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/安全/"><i class="fa "></i>
+                                安全</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/ElasticSearch/"><i class="fa "></i>
+                                ElasticSearch</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/工具/"><i class="fa "></i>
+                                工具</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="HTTPS部署">
+            
+            HTTPS部署
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/安全/">安全</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/09/06</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><hr>
+<p>考虑到HTTP的安全性问题，现在很多网站已经将HTTP升级到了HTTP + SSL（HTTPS）。<br>但也并不是所有的HTTPS站点就是安全的，也可能存在中间人的攻击（不是权威的CA机构颁发的证书以及证书校验不严格）。下图就是关于“中间人攻击”的原理图。<br><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/1.png" alt="image"><br><br>不过权威CA机构颁发证书大多数是收费的，想用免费的可以考虑 Let’s Encrypt。<br>什么才是权威呢？<br>就是CA机构向浏览器厂商申请，申请通过后，由浏览器厂商将CA机构的根证书（简称CA证书）内嵌在浏览器中。也就是那些为企业签发证书的CA证书都是受浏览器信任的。</p>
+<p>而证书一般有三种，根证书、服务器证书、客户端证书。<br>根证书是生成服务器证书和客户端证书的基础，也就是CA证书。<br>服务器证书是放在服务器上的，并引入到站点的配置文件中，由CA证书签名。相当于有一封信件（服务器证书），由CA盖章（签名），表示此信件受CA信任。<br>客户端证书是对于个人的，这里不做演示。</p>
+<p>这样就可以防御中间人攻击了，当客户端发起HTTPS请求时，服务器将服务器证书传给客户端，客户端用内嵌的CA证书和获取到的服务器证书做信息比较，如果发现是伪造的证书，客户端发出警告。</p>
+<p>接下来就模拟下整个证书生成的环节，可以有一个清楚的认识。因为是本地环境，就自建CA根证书了（Let’s Encrypt 有域名验证之类的步骤）。</p>
+<h4 id="根证书（CA证书）"><a href="#根证书（CA证书）" class="headerlink" title="根证书（CA证书）"></a>根证书（CA证书）</h4><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl version -a  //openssl所有安装信息</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/2.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/lib/ssl</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/3.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd  /etc/ssl  //到Linux专门的配置目录中设置CA</span><br><span class="line">mkdir req //放服务器证书</span><br><span class="line">mkdir newcert //放签名后的服务器证书</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp openssl.cnf cacert.cnf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim  cacert.cnf</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/4.png" alt="image"><br><br>修改v3_ca 下面设置项。<br></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/5.png" alt="image"><br><br>修改v3_req的设置项， DNS参数值为要升级为HTTPS的域名。<br><br>开启 v3_req（去掉 #）。<br></p>
+<p>生成根证书的私钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -aes256 -out private/cakey.pem 2048 //用-aes256加密生成cakey.pem私钥，密码记住后面要用</span><br></pre></td></tr></table></figure>
+
+<p>生成根证书CA （自签）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -new -x509 -subj &quot;/C=CN/CN=FocusChina Corporation Root CA/ST=JiangSu/L=NanJing/O=FocusChina/OU=FC&quot; -extensions v3_ca -days 3650 -key private/cakey.pem -sha256 -out cacert.pem -config cacert.cnf</span><br></pre></td></tr></table></figure>
+
+<p>查看CA证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -in cacert.pem -text -noout</span><br><span class="line">![6.png](https://upload-images.jianshu.io/upload_images/13834020-709773247db1696b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">Issuer与Subject一致</span><br></pre></td></tr></table></figure>
+
+<p>以上CA根证书建立完成，下面就可以给相应的服务器证书签名。</p>
+<h4 id="服务器证书"><a href="#服务器证书" class="headerlink" title="服务器证书"></a>服务器证书</h4><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/nginx/ssl/  //这里将服务器证书放在 /etc/nginx/ssl 目录下。</span><br></pre></td></tr></table></figure>
+
+<p>生成服务器证书私钥 (<a href="http://www.app.goods" target="_blank" rel="noopener">www.app.goods</a>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out www.app.goods.key 2048</span><br></pre></td></tr></table></figure>
+
+<p>生成服务器证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -subj &quot;/C=CN/CN=app.goods/ST=JiangSu/L=NanJing/O=FocusChina/OU=FC&quot; -extensions v3_req -sha256 -new -key www.app.goods.key -out www.app.goods.csr</span><br></pre></td></tr></table></figure>
+
+<p>CN的值为服务器名，其他的和根证书保持一致。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp www.app.goods.csr /etc/ssl/req</span><br></pre></td></tr></table></figure>
+
+<p>服务器证书生成后，就可以将相关信息（公司信息、服务器证书，域名等）交给CA机构，CA机构会根据提供的信息去验证公司信息、域名是否属实。接下来，给服务器证书签名。</p>
+<h4 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h4><hr>
+<p>在前面已经建立了自己的CA证书，下面就用生成的CA证书给服务器签名。</p>
+<p>签名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -req -extensions v3_req -days 3650 -sha256 -in ./req/www.app.goods.csr -CA cacert.pem -CAkey private/cakey.pem -CAcreateserial -out ./newcert/www.app.goods.crt -extfile cacert.cnf //用CA证书、CA私钥、服务器证书生成www.app.goods.crt，有效期10年</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/7.png" alt="image"></p>
+<p>查看证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -in ./newcert/www.app.goods.crt -text -noout</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/8.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp ./newcert/www.app.goods.crt /etc/nginx/ssl  //将签名后的证书交给服务器</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置服务器"><a href="#配置服务器" class="headerlink" title="配置服务器"></a>配置服务器</h4><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd  /etc/nginx/conf.d</span><br><span class="line">vim www.app.goods.conf</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/9.png" alt="image"><br><br>ssl 监听端口为443， 开启ssl，并加载服务器证书私钥以及证书。<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service nginx restart //重启服务</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.app.good" target="_blank" rel="noopener">https://www.app.good</a> //chrome 打开网站<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/10.png" alt="image"><br><br>页面出现“您的连接不是私密连接”，是因为自建的根证书或者服务器证书不被浏览器信任。<br></p>
+<p>导出根证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/ssl</span><br><span class="line">sz cacert.pem //发送到桌面。</span><br></pre></td></tr></table></figure>
+
+<p>Google 设置  高级 &gt;  管理证书 受信任的根证书颁发机构  &gt; 导入cacert.pem 运行 &gt; certmgr.msc  //chrome用的是window系统的证书管理<br><br><br><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/11.png" alt="image"><br></p>
+<p>刷新  <a href="https://www.app.goods/" target="_blank" rel="noopener">https://www.app.goods/</a><br><br><br><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/12.png" alt="image"><br><br>chrome、IE等已成功<br></p>
+<p>Firefox 用的不是window系统的证书管理，需要导入到浏览器<br><br>Firefox 选项   &gt; 隐私与安全 查看证书  &gt; 导入cacert.pem 证书颁发机构 （下载证书 勾选第一个框）<br><br><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/13.png" alt="image"><br><br>至此，HTTPS部署成功<br></p>
+<h4 id="强制HTTP跳转"><a href="#强制HTTP跳转" class="headerlink" title="强制HTTP跳转"></a>强制HTTP跳转</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Security/14.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service nginx restart //重启服务</span><br></pre></td></tr></table></figure>
+
+<p>访问 <a href="http://www.app.goods" target="_blank" rel="noopener">http://www.app.goods</a> 会调整到 <a href="https://www.app.goods/" target="_blank" rel="noopener">https://www.app.goods/</a></p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/工具/Git基础使用/" class="pre-post btn btn-default" title='Git基础使用'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            Git基础使用</span>
+    </a>
+    
+    
+    <a href="/网络/打开网站发生了什么？/" class="next-post btn btn-default" title='打开网站发生了什么？'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            打开网站发生了什么？</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "en",
+    clientID: "9406f48c8041bdb83500",
+    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
+    repo: "sexyphoenix.github.io",
+    owner: "sexyphoenix",
+    admin: ["sexyphoenix"],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+});
+gitalk.render('gitalk-container');
+</script>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#根证书（CA证书）"><span class="toc-text">根证书（CA证书）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器证书"><span class="toc-text">服务器证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#签名"><span class="toc-text">签名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置服务器"><span class="toc-text">配置服务器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#强制HTTP跳转"><span class="toc-text">强制HTTP跳转</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>
