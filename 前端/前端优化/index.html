@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="SexyPhoenix的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://sexyphoenix.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
+
+
+<meta name="description" content="前言
+基本HTML加载，需要 20ms 左右
+Nginx配置，关闭 keepalive、etag、gzip、if_modified_since协议：HTTP/1.1  浏览器：Chrome  
+...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    前端优化 |
+    
+    SexyPhoenix的博客
+</title>
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://raw.githubusercontent.com/SexyPhoenix/sexyphoenix.github.io/master/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <div class="branding">
+            
+            <h2>
+                I do and I understand
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://sexyphoenix.github.io">
+                        SexyPhoenix的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/PHP/"><i class="fa "></i>
+                                PHP</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/MySQL/"><i class="fa "></i>
+                                MySQL</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/网络/"><i class="fa "></i>
+                                网络</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/安全/"><i class="fa "></i>
+                                安全</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/ElasticSearch/"><i class="fa "></i>
+                                ElasticSearch</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="前端优化">
+            
+            前端优化
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/09/06</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><hr>
+<p>基本HTML加载，需要 20ms 左右<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/1.png" alt="image"></p>
+<p>Nginx配置，关闭 keepalive、etag、gzip、if_modified_since<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/2.png" alt="image"><br>协议：HTTP/1.1  浏览器：Chrome  </p>
+<h4 id="减少HTTP请求"><a href="#减少HTTP请求" class="headerlink" title="减少HTTP请求"></a>减少HTTP请求</h4><hr>
+<p>加载未合并外部css，需要 35ms 左右<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/3.png" alt="image">  </p>
+<p>加载合并外部css，需要 25ms 左右<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/4.png" alt="image">  </p>
+<p>两个合并后的css，加载减少了10ms，如果将页面所有的css、js、图片（CSS sprites ）合并，减少的时间将很可观。  </p>
+<h4 id="DOM以及CSS"><a href="#DOM以及CSS" class="headerlink" title="DOM以及CSS"></a>DOM以及CSS</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/5.png" alt="image"><br>上图是浏览器解析HTML和渲染树之间的流程。浏览器在获取到HTML页面后开始解析页面，解析到head标签后，发现外部CSS，会异步发出请求，CSS获取后，解析CSS。 HTML解析后生成DOM Tree，CSS解析后生成CSSOM Tree， 两者结合开始渲染树。<br>1、首屏的页面要快速的渲染出来，CSS最好放在页面头部。同时有多个css文件的时候，也要将基本样式放在其他样式之前加载（边获取边渲染）。<br>2、HTML以及CSS的元素层级要尽量少,加快页面渲染。<br>3、对于首页，可以将基本样式内联放在头部。（快速渲染，灵活应用）  </p>
+<h4 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/6.png" alt="image"><br>上图是浏览器解析流程，蓝色是样式解析，黄色是JS脚本执行，顺序执行。JS脚本执行会阻塞样式或DOM解析<br>1、JS脚本放在页面下面，防止阻塞页面渲染。<br>2、不要在JS里执行长时间的程序。<br>3、减少JS对DOM的操作，可减少浏览器的回流以及重绘。  </p>
+<h4 id="Accept-Encoding-gzip"><a href="#Accept-Encoding-gzip" class="headerlink" title="Accept-Encoding: gzip"></a>Accept-Encoding: gzip</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/7.png" alt="image"><br>前言Nginx配置中关闭了gzip功能，页面获取的Size如上：1.9k、1013b、42kb。。。   </p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/8.png" alt="image"><br>Nginx配置开启gzip，设置css、js压缩类型。页面获取的Size如上：650b、505b。。。<br>1、各种资源的Size能减少到之前的30% ~ 50%；<br>2、正式环境下，一般css、js等都是压缩过的，不要在nginx中开启这些类型的压缩。<br>3、gzip这些算法一般是对文件重复的字符做优化，如果文件很小以及重复很少，很可能会发现压缩后的反而比之前还大。  </p>
+<h4 id="Connection-keep-alive"><a href="#Connection-keep-alive" class="headerlink" title="Connection: keep-alive"></a>Connection: keep-alive</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/9.png" alt="image">  </p>
+<p>前言Nginx配置中关闭了keep-alive，看上图：<br>1、Connection ID 不可以复用，连接都是开启了新HTTP，进行了重复性的DNS Lookup（方框中绿色长度代表DNS执行时间）、Initial connection（方框中黄色长度代表TCP三次握手时间）。<br>2、上图右边花了三个方框，浏览器对并发请求有连接限制，Chrome是6个，可以看出第二、三框前期进行了长时间的等待（等后期讲应用层面的优化再来解决这个问题）。  </p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/10.png" alt="image"><br>Nginx配置中设置 keepalive_timeout 60s， 开启 keep-alive，看上图：<br>1、Connection ID可复用，右边DNS Lookup，Initial connection时间消耗大幅度减少。  </p>
+<h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/11.png" alt="image">  </p>
+<p>前言Nginx配置中，设置了 Last-Modified 为空，etag off、if_modified_since off 这样可以使客户端彻底不使用缓存。上图可以看出资源都走了网络请求。<br>缓存有两种;<br>1、验证性缓存（ETag、Last-Modified）<br>2、非验证性缓存（Cache-Control、Expires）  </p>
+<h4 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h4><hr>
+<p>Cache-Control 特点是一但有效期内，就不会向服务器发送请求。虽然它是非验证性缓存，但其实我更想将它理解为实现缓存的一种机制。<br>1、缓存请求主要指令：<br>max-age=<seconds>      //<seconds>内用客户端缓存，相对于客户端第一次访问服务器的时间<br>max-age=0        //要向服务器发送请求验证,是否使用缓存文件<br>no-cache           //要向服务器发送请求验证,是否使用缓存文件<br>no-store            //禁止缓存<br>指令是单向的，在响应中不一定包含相同的指令  </seconds></seconds></p>
+<p>2、缓存响应主要指令<br>no-store    //禁止缓存  服务器设置（add_header  Cache-Control  no-store）<br>no-cache   //要向服务器发送请求验证,是否使用缓存文件<br>max-age=<seconds>      //<seconds>内用客户端缓存，相对于客户端第一次访问服务器的时间<br>must-revalidate               //本地客户端过期，必须访问服务器  </seconds></seconds></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/12.png" alt="image"> </p>
+<p>Nginx配置 add_header cache-control ‘public,max-age=10’，文件在10s内从缓存中取出，时间相对于请求时间Date，10s后刷新页面重新向服务器请求文件。  </p>
+<h4 id="Last-Modified-If-Modified-Since"><a href="#Last-Modified-If-Modified-Since" class="headerlink" title="Last-Modified  /  If-Modified-Since"></a>Last-Modified  /  If-Modified-Since</h4><hr>
+<p>Last-Modified 和 If-Modified-Since 是一组。<br>Last-Modified ： 服务器发送给客户端， 代表文件最后一次修改的时间。<br>If-Modified-Since ： 客户端发送给服务器， 此值第一次访问页面时 request 中是不存在此header的，第二次访问时，由第一次获取到的 Last-Modified 值 赋给 If-Modified-Since。  </p>
+<p>服务器获取到客户端传递的If-Modified-Since和 Last-Modified 比较，相同返回304，不同返回200<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/13.png" alt="image"><br>Nginx配置中设置：<br>add_header cache-control ‘no-cache,must-revalidate’   //强制向服务器验证，是否使用缓存。<br>if_modified_since exact  //开启 if_modified_since 验证<br>#add_header  Last-Modified “”;  //注释对 Last-Modified 的设置  </p>
+<p>在上图：<br>1、Last-Modified 和  If-Modified-Since 值相等，从客户端缓存中获取。<br>2、304状态码，服务器只返回头信息，不返回主体内容。<br>      </p>
+<p>修改其中的 jquery-ui.css 文件 <br><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/14.png" alt="image">  <br><br>Last-Modified 和  If-Modified-Since 值不相等，重新获取，状态码 200，其他文件的状态码仍然是 304。  <br></p>
+<p>修改Nginx配置 add_header cache-control ‘max-age=5’<br>max-age=<seconds> 和  Last-Modified 、 If-Modified-Since 并用， 5s内读取客户端缓存，5s后向服务器发送请求，再对比 Last-Modified 和 If-Modified-Since 发现相等， 返回状态码 304 ，直接读取客户端缓存。  </seconds></p>
+<h4 id="ETag-If-None-Match"><a href="#ETag-If-None-Match" class="headerlink" title="ETag  /  If-None-Match"></a>ETag  /  If-None-Match</h4><hr>
+<p>ETag  和  If-None-Match 也是一组。<br>ETag ： 服务器发送给客户端， 服务器根据文档内容生成一串字符。<br>If-None-Match ： 客户端发送给服务器， 此值第一次访问页面时 request 中是不存在此header的，第二次访问时，由第一次获取到的 ETag 值 赋给 If-None-Match。  </p>
+<p>服务器获取到客户端传递的 If-None-Match 和 ETag 比较，相同返回304，不同返回200<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/15.png" alt="image"><br>Nginx配置中设置：<br>add_header cache-control ‘no-cache,must-revalidate’   //强制向服务器验证，是否使用缓存。<br>etag on  //开启 etag 验证<br>add_header  Last-Modified “”;   //关闭 Last-Modified设置<br>if_modified_since off;  </p>
+<p>在上图：<br>1、ETag 和 If-None-Match 值相等，从客户端缓存中获取。<br>2、304状态码，服务器只返回头信息，不返回主体内容。  </p>
+<p>文件修改后，会重新生成Etag，返回200 状态码，这个和 Last-Modified一样就不说了。  </p>
+<p>最后说一下既然存在  Last-Modified， 为什么还要 Etag。<br>1、 Last-Modified只能精确到s级，如果在ms内修改了文件，文件的 Last-Modified 就是一样，客户端就不能获取信息的文件。<br>2、在分布式环境下，动态生成的页面就会存在时间不一致，但内容却没有修改。导致缓存有问题。  </p>
+<h4 id="讲在最后"><a href="#讲在最后" class="headerlink" title="讲在最后"></a>讲在最后</h4><hr>
+<p>关于前端性能优化，本篇也就讲到这了，但这些也只是比较基础的内容，在实际使用中根据环境也会有很多问题。<br>关于没有讲到的，比如减少重定向、Cookie优化、DNS（HTML5 预加载）、CDN、图片优化、JS细节优化、Ajax优化、分布式下各种参数可能会出现的问题、开启gzip和Etag冲突等等，感兴趣的可以自己在网上搜一搜，看一看。最后，给大家放两张比较有意思的图（网上找的），大家可以研究研究。<br>performance.timing<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/16.png" alt="image">  </p>
+<p>浏览器执行流程<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Frontend/17.png" alt="image">  </p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+    <a href="/PHP/消息中心（实现）/" class="next-post btn btn-default" title='消息中心（实现）'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            消息中心（实现）</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "en",
+    clientID: "9406f48c8041bdb83500",
+    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
+    repo: "sexyphoenix.github.io",
+    owner: "sexyphoenix",
+    admin: ["sexyphoenix"],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+});
+gitalk.render('gitalk-container');
+</script>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#减少HTTP请求"><span class="toc-text">减少HTTP请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM以及CSS"><span class="toc-text">DOM以及CSS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JS"><span class="toc-text">JS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Accept-Encoding-gzip"><span class="toc-text">Accept-Encoding: gzip</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Connection-keep-alive"><span class="toc-text">Connection: keep-alive</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缓存"><span class="toc-text">缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cache-Control"><span class="toc-text">Cache-Control</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Last-Modified-If-Modified-Since"><span class="toc-text">Last-Modified  /  If-Modified-Since</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ETag-If-None-Match"><span class="toc-text">ETag  /  If-None-Match</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#讲在最后"><span class="toc-text">讲在最后</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>
