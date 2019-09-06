@@ -1,0 +1,326 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="SexyPhoenix的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://sexyphoenix.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
+
+
+<meta name="description" content="OAuth 2.0定义了四种授权方式
+授权码模式（authorization code） 
+简化模式（implicit）
+密码模式（resource owner password credent...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    OAuth2.0 |
+    
+    SexyPhoenix的博客
+</title>
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://raw.githubusercontent.com/SexyPhoenix/sexyphoenix.github.io/master/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <div class="branding">
+            
+            <h2>
+                I do and I understand
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://sexyphoenix.github.io">
+                        SexyPhoenix的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/PHP/"><i class="fa "></i>
+                                PHP</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/MySQL/"><i class="fa "></i>
+                                MySQL</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/网络/"><i class="fa "></i>
+                                网络</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/安全/"><i class="fa "></i>
+                                安全</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/ElasticSearch/"><i class="fa "></i>
+                                ElasticSearch</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="OAuth2.0">
+            
+            OAuth2.0
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/PHP/">PHP</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/09/06</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="OAuth-2-0定义了四种授权方式"><a href="#OAuth-2-0定义了四种授权方式" class="headerlink" title="OAuth 2.0定义了四种授权方式"></a>OAuth 2.0定义了四种授权方式</h4><ul>
+<li>授权码模式（authorization code） </li>
+<li>简化模式（implicit）</li>
+<li>密码模式（resource owner password credentials）</li>
+<li>客户端模式（client credentials）<br>授权码模式是功能最完整、流程最严密的授权模式，本篇也是主要去理解这种模式</li>
+</ul>
+<h4 id="授权码模式大概分为-5-个步骤"><a href="#授权码模式大概分为-5-个步骤" class="headerlink" title="授权码模式大概分为 5 个步骤"></a>授权码模式大概分为 5 个步骤</h4><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/12.png" alt="image"></p>
+<ul>
+<li>客户端（Client）向服务提供商（HTTP service）申请创建客户端（Client_id、Client_Secret）。</li>
+<li>用户（Resource Owner）通过浏览器（User Agent）打开后,跳转到授权页，客户端要求用户授权。</li>
+<li>用户同意给予客户端授权，返回授权码（Code）。</li>
+<li>客户端通过授权码，向认证服务器（Authorization server）申请令牌（Access Token）。</li>
+<li>客户端通过令牌，向资源服务器（Resource server）获取资源。</li>
+</ul>
+<h6 id="1-获取Code"><a href="#1-获取Code" class="headerlink" title="1. 获取Code"></a>1. 获取Code</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">response_type：表示授权类型，必选项，此处的值固定为&quot;code&quot;</span><br><span class="line">client_id：表示客户端的ID，必选项</span><br><span class="line">redirect_uri：表示重定向URL，可选项</span><br><span class="line">scope：表示申请的权限范围，可选项</span><br><span class="line">state：表示客户端的当前状态，可以指定任意值，认证服务器会原封不动地返回这个值。</span><br></pre></td></tr></table></figure>
+
+<h6 id="2-返回Code（用户授权通过后返回到重定向URL）"><a href="#2-返回Code（用户授权通过后返回到重定向URL）" class="headerlink" title="2. 返回Code（用户授权通过后返回到重定向URL）"></a>2. 返回Code（用户授权通过后返回到重定向URL）</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">code：表示授权码，必选项。</span><br><span class="line">state：如果客户端的请求中包含这个参数，认证服务器的回应也必须一模一样包含这个参数。</span><br></pre></td></tr></table></figure>
+
+<h6 id="3-客户端向认证服务器申请Access-Token"><a href="#3-客户端向认证服务器申请Access-Token" class="headerlink" title="3. 客户端向认证服务器申请Access Token"></a>3. 客户端向认证服务器申请Access Token</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grant_type：表示使用的授权模式，必选项，此处的值固定为&quot;authorization_code&quot;。</span><br><span class="line">code：表示获得的授权码，必选项。</span><br><span class="line">redirect_uri：表示重定向URI，必选项，且必须与上面中的该参数值保持一致。</span><br><span class="line">client_id：表示客户端ID，必选项。</span><br><span class="line">client_secret ： 表示客户端密钥，必选项。</span><br></pre></td></tr></table></figure>
+
+<h6 id="4-认证服务器返回Access-Token"><a href="#4-认证服务器返回Access-Token" class="headerlink" title="4. 认证服务器返回Access Token"></a>4. 认证服务器返回Access Token</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">access_token：表示访问令牌，必选项。</span><br><span class="line">token_type：表示令牌类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型。</span><br><span class="line">expires_in：表示过期时间，单位为秒。如果省略该参数，必须其他方式设置过期时间。</span><br><span class="line">refresh_token：表示更新令牌，用来获取下一次的访问令牌，可选项。</span><br><span class="line">scope：表示权限范围，如果与客户端申请的范围一致，此项可省略。</span><br></pre></td></tr></table></figure>
+
+<h6 id="5-向资源服务器获取信息"><a href="#5-向资源服务器获取信息" class="headerlink" title="5. 向资源服务器获取信息"></a>5. 向资源服务器获取信息</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">headers.Accept ： media类型，固定值 “application/json”</span><br><span class="line">headers.Authorization 授权，值为返回的token_type + 空格 + access_token</span><br></pre></td></tr></table></figure>
+
+<h4 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h4><h6 id="1-获取code时，只传递了clent-id，redirect-url等值，服务提供商是怎么知道是哪个用户授权？"><a href="#1-获取code时，只传递了clent-id，redirect-url等值，服务提供商是怎么知道是哪个用户授权？" class="headerlink" title="1. 获取code时，只传递了clent_id，redirect_url等值，服务提供商是怎么知道是哪个用户授权？"></a>1. 获取code时，只传递了clent_id，redirect_url等值，服务提供商是怎么知道是哪个用户授权？</h6><p> 授权时，你已经登录了服务提供商的网站或者会要求你登录。</p>
+<h6 id="2-客户端是怎么知道你已经授权？"><a href="#2-客户端是怎么知道你已经授权？" class="headerlink" title="2. 客户端是怎么知道你已经授权？"></a>2. 客户端是怎么知道你已经授权？</h6><p> 授权请求发出后，浏览器得到的是一个http的重定向响应，这个地址是你的redirect_url，同时返回code值</p>
+<h6 id="3-为什么要设置获取code后再去获取access-token"><a href="#3-为什么要设置获取code后再去获取access-token" class="headerlink" title="3. 为什么要设置获取code后再去获取access_token"></a>3. 为什么要设置获取code后再去获取access_token</h6><p> 是为了安全性，直接通过重定向传回access_token，但是HTTP 302是不安全的， 攻击者有可能会获取到access_token，而code不能获取资源，即使被截取也没什么用，client通过HTTPS以及密钥来获取access_token，以保证安全。</p>
+<h6 id="为什么不直接用HTTPS重定向回client"><a href="#为什么不直接用HTTPS重定向回client" class="headerlink" title="为什么不直接用HTTPS重定向回client"></a>为什么不直接用HTTPS重定向回client</h6><p>不是所有client都支持HTTPS，为了通用性 和安全性，才衍生出来这么一个code。</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/API认证系统Passport/" class="pre-post btn btn-default" title='API认证系统Passport'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            API认证系统Passport</span>
+    </a>
+    
+    
+    <a href="/队列/" class="next-post btn btn-default" title='队列'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            队列</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "en",
+    clientID: "9406f48c8041bdb83500",
+    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
+    repo: "sexyphoenix.github.io",
+    owner: "sexyphoenix",
+    admin: ["sexyphoenix"],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+});
+gitalk.render('gitalk-container');
+</script>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#OAuth-2-0定义了四种授权方式"><span class="toc-text">OAuth 2.0定义了四种授权方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#授权码模式大概分为-5-个步骤"><span class="toc-text">授权码模式大概分为 5 个步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-获取Code"><span class="toc-text">1. 获取Code</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-返回Code（用户授权通过后返回到重定向URL）"><span class="toc-text">2. 返回Code（用户授权通过后返回到重定向URL）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-客户端向认证服务器申请Access-Token"><span class="toc-text">3. 客户端向认证服务器申请Access Token</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-认证服务器返回Access-Token"><span class="toc-text">4. 认证服务器返回Access Token</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#5-向资源服务器获取信息"><span class="toc-text">5. 向资源服务器获取信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#疑问"><span class="toc-text">疑问</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-获取code时，只传递了clent-id，redirect-url等值，服务提供商是怎么知道是哪个用户授权？"><span class="toc-text">1. 获取code时，只传递了clent_id，redirect_url等值，服务提供商是怎么知道是哪个用户授权？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-客户端是怎么知道你已经授权？"><span class="toc-text">2. 客户端是怎么知道你已经授权？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-为什么要设置获取code后再去获取access-token"><span class="toc-text">3. 为什么要设置获取code后再去获取access_token</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#为什么不直接用HTTPS重定向回client"><span class="toc-text">为什么不直接用HTTPS重定向回client</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="SexyPhoenix的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://sexyphoenix.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
+
+
+<meta name="description" content="安装1composer require laravel/passport=~4.0
+
+ notes:  1）确保系统安装unzip、zip等命令。  2）composer 安装出现 Authen...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    API认证系统Passport |
+    
+    SexyPhoenix的博客
+</title>
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://raw.githubusercontent.com/SexyPhoenix/sexyphoenix.github.io/master/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <div class="branding">
+            
+            <h2>
+                I do and I understand
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://sexyphoenix.github.io">
+                        SexyPhoenix的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/PHP/"><i class="fa "></i>
+                                PHP</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/MySQL/"><i class="fa "></i>
+                                MySQL</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/网络/"><i class="fa "></i>
+                                网络</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/安全/"><i class="fa "></i>
+                                安全</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/ElasticSearch/"><i class="fa "></i>
+                                ElasticSearch</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="API认证系统Passport">
+            
+            API认证系统Passport
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/PHP/">PHP</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/09/06</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require laravel/passport=~4.0</span><br></pre></td></tr></table></figure>
+
+<p> notes:<br>  1）确保系统安装unzip、zip等命令。<br>  2）composer 安装出现 Authentication required (packagist.phpcomposer.com) 问题，修改composer.json 中的源，repositories.packagist.url = <a href="https://packagist.laravel-china.org" target="_blank" rel="noopener">https://packagist.laravel-china.org</a> 。  </p>
+<h4 id="注册服务提供者"><a href="#注册服务提供者" class="headerlink" title="注册服务提供者"></a>注册服务提供者</h4><p>在config/app.php的providers 数组中加入 Laravel\Passport\PassportServiceProvider::class  </p>
+<h4 id="迁移数据库"><a href="#迁移数据库" class="headerlink" title="迁移数据库"></a>迁移数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan migrate  //生成用于存储客户端和令牌的数据表</span><br></pre></td></tr></table></figure>
+
+<h4 id="生成加密健"><a href="#生成加密健" class="headerlink" title="生成加密健"></a>生成加密健</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan passport:install</span><br></pre></td></tr></table></figure>
+
+<p>1、生成oauth-private.key（用于构建认证服务器），oauth-public.key（用于构建资源服务器）<br>2、oauth_clients数据库生成「个人访问」客户端和「密码授权]两条数据。  </p>
+<h4 id="配置Passport（参考官方文档）"><a href="#配置Passport（参考官方文档）" class="headerlink" title="配置Passport（参考官方文档）"></a>配置Passport（参考官方文档）</h4><p>在Model中，我们需要增加 HasApiTokens class<br>在AuthServiceProvider中， 增加 “Passport::routes()”<br>在 auth.php中， 更改 api 认证方式为passport  </p>
+<h4 id="申请客户端以及私人访问令牌-（两种方式）"><a href="#申请客户端以及私人访问令牌-（两种方式）" class="headerlink" title="申请客户端以及私人访问令牌 （两种方式）"></a>申请客户端以及私人访问令牌 （两种方式）</h4><h6 id="1-命令形式（不方便客户注册）"><a href="#1-命令形式（不方便客户注册）" class="headerlink" title="1. 命令形式（不方便客户注册）"></a>1. 命令形式（不方便客户注册）</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan passport:client</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/8.jpg" alt="image">  </p>
+<h6 id="2-Passport-Vue-组件"><a href="#2-Passport-Vue-组件" class="headerlink" title="2. Passport Vue 组件"></a>2. Passport Vue 组件</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan vendor:publish --tag=passport-components  //发布 Passport Vue，组件位于resources/assets/js/components下</span><br></pre></td></tr></table></figure>
+
+<p>//注册到resources/assets/js/app.js 文件，记得要放在new Vue上面  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(</span><br><span class="line">    &apos;passport-clients&apos;,</span><br><span class="line">    require(&apos;./components/passport/Clients.vue&apos;)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">Vue.component(</span><br><span class="line">    &apos;passport-authorized-clients&apos;,</span><br><span class="line">    require(&apos;./components/passport/AuthorizedClients.vue&apos;)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">Vue.component(</span><br><span class="line">    &apos;passport-personal-access-tokens&apos;,</span><br><span class="line">    require(&apos;./components/passport/PersonalAccessTokens.vue&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p> //编译前端资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install   //此处报错，移步larravel Mix文档</span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+
+<p>编译后资源放在public/js/app.js下  </p>
+<p>//组件放入应用模板（记得引入编译后的app.js）  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;passport-clients&gt;&lt;/passport-clients&gt;</span><br><span class="line">&lt;passport-authorized-clients&gt;&lt;/passport-authorized-clients&gt;</span><br><span class="line">&lt;passport-personal-access-tokens&gt;&lt;/passport-personal-access-tokens&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/9.jpg" alt="image"><br>以上认证服务器都已经搭建完成  </p>
+<h4 id="第三方应用实现登录"><a href="#第三方应用实现登录" class="headerlink" title="第三方应用实现登录"></a>第三方应用实现登录</h4><h6 id="1-申请客户端"><a href="#1-申请客户端" class="headerlink" title="1. 申请客户端"></a>1. 申请客户端</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/10.jpg" alt="image"><br>回调地址 <a href="http://third.plat.goods/dew/sso" target="_blank" rel="noopener">http://third.plat.goods/dew/sso</a>  </p>
+<h6 id="申请授权码和访问令牌"><a href="#申请授权码和访问令牌" class="headerlink" title="申请授权码和访问令牌"></a>申请授权码和访问令牌</h6><p>//获取授权码 code （第一次交互）  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$query = http_build_query(array(</span><br><span class="line">        &apos;client_id&apos; =&gt; 3,</span><br><span class="line">        &apos;redirect_uri&apos; =&gt; &apos;http://third.plat.goods/dew/sso&apos;, //地址必须为上面的回调地址</span><br><span class="line">        &apos;response_type&apos; =&gt; &apos;code&apos;,  //固定值</span><br><span class="line">        &apos;scope&apos; =&gt; &apos;&apos;,</span><br><span class="line">        &apos;state&apos; =&gt; urlencode(&apos;http://laravel.plat.goods/user&apos;)   //可以放用户访问的地址。</span><br><span class="line">));</span><br><span class="line"></span><br><span class="line">return redirect(&apos;http://laravel.plat.goods/oauth/authorize?&apos;.$query);  ///laravel.plat.goods为上面认证服务器</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/11.jpg" alt="image"><br>//获取访问令牌  access token 以及向资源服务器请求用户信息<br>授权后会重定向回调地址  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Route::get(&apos;/dew/sso&apos;, &apos;SSOController@callback&apos;);  //路由文件里添加</span><br><span class="line">php artisan make:controller SSOController //创建文件</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace App\Http\Controllers;</span><br><span class="line"></span><br><span class="line">use App\Models\User;</span><br><span class="line">use GuzzleHttp\Client;</span><br><span class="line">use Illuminate\Http\Request;</span><br><span class="line">use Illuminate\Support\Facades\Log;</span><br><span class="line"></span><br><span class="line">class SSOController extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    protected $http;</span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;http = new Client();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取授权码后的回调URL</span><br><span class="line">     * @param Request $request</span><br><span class="line">     * @return \Illuminate\Http\RedirectResponse</span><br><span class="line">     */</span><br><span class="line">    public function callback(Request $request)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        $token = $this-&gt;token($request); //第二次交互</span><br><span class="line">        $login = $this-&gt;login($token);//第三次交互</span><br><span class="line"></span><br><span class="line">        if($login)&#123;</span><br><span class="line"></span><br><span class="line">            if($request_url = $request-&gt;input(&apos;state&apos;, null))&#123;</span><br><span class="line">                $request-&gt;session()-&gt;put(&apos;url.intended&apos;, urldecode($request_url));</span><br><span class="line">            &#125;</span><br><span class="line">            return redirect()-&gt;intended();  //跳转到 http://laravel.plat.goods/user</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            return redirect()-&gt;to(&apos;http://laravel.plat.com/home/public/login&apos;); //服务提供商网站必须登录</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取access token</span><br><span class="line">     * @param $request</span><br><span class="line">     * @return array|mixed</span><br><span class="line">     */</span><br><span class="line">    protected function token($request)</span><br><span class="line">    &#123;</span><br><span class="line">        $code = $request-&gt;code;</span><br><span class="line">        if($code) &#123;</span><br><span class="line"></span><br><span class="line">            try &#123;</span><br><span class="line"></span><br><span class="line">                $response = $this-&gt;http-&gt;post(&apos;http://laravel.plat.goods/oauth/token&apos;, [</span><br><span class="line">                    &apos;form_params&apos; =&gt; [</span><br><span class="line">                        &apos;grant_type&apos; =&gt; &apos;authorization_code&apos;,  //固定值</span><br><span class="line">                        &apos;client_id&apos; =&gt; 3,</span><br><span class="line">                        &apos;client_secret&apos; =&gt; &apos;UihXNHoSqohdtQ8Js6Av7AOyk3GBNB9rJziDPaWf&apos;,</span><br><span class="line">                        &apos;redirect_uri&apos; =&gt; &apos;http://third.plat.goods/dew/sso&apos;,</span><br><span class="line">                        &apos;code&apos; =&gt; $code,</span><br><span class="line">                    ],</span><br><span class="line">                ]);</span><br><span class="line"></span><br><span class="line">                $response_data = json_decode((string)$response-&gt;getBody(), true);</span><br><span class="line"></span><br><span class="line">                return $response_data;</span><br><span class="line">            &#125; catch (\Exception $e) &#123;</span><br><span class="line"></span><br><span class="line">                Log::error(&apos;get token by code failed: &apos;.$code.&apos; - &apos;.$e-&gt;getMessage().&apos; - &apos;.$e-&gt;getTraceAsString());</span><br><span class="line"></span><br><span class="line">                return [];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line"></span><br><span class="line">            return [];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 通过token获取用户信息，并进行登录操作</span><br><span class="line">     * @param $token</span><br><span class="line">     * @return bool</span><br><span class="line">     */</span><br><span class="line">    protected function login($token)</span><br><span class="line">    &#123;</span><br><span class="line">        if(empty($token)) return false;</span><br><span class="line"></span><br><span class="line">        $access_token = $token[&apos;access_token&apos;];</span><br><span class="line">        try &#123;</span><br><span class="line">           </span><br><span class="line">           // 资源服务器和认证服务器放在了一起，可以独立。</span><br><span class="line">            $response = $this-&gt;http-&gt;request(&apos;GET&apos;, &apos;http://laravel.plat.goods/api/user&apos;, [</span><br><span class="line">                &apos;headers&apos; =&gt; [</span><br><span class="line">                    &apos;Accept&apos; =&gt; &apos;application/json&apos;,</span><br><span class="line">                    &apos;Authorization&apos; =&gt; $token[&apos;token_type&apos;] . &apos; &apos; . $access_token,</span><br><span class="line">                ]</span><br><span class="line">            ]);</span><br><span class="line">            $users_body = $response-&gt;getBody();</span><br><span class="line">            $data = json_decode($users_body, true);</span><br><span class="line">            if($data) &#123;</span><br><span class="line">                $user = new User($data);</span><br><span class="line"></span><br><span class="line">                //because of employee_id is guarded</span><br><span class="line">                $user-&gt;setAttribute($user-&gt;getKeyName(), $data[&apos;employee_id&apos;]);</span><br><span class="line">                //login user in my system</span><br><span class="line">                auth()-&gt;login($user, false);</span><br><span class="line"></span><br><span class="line">                return true;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line"></span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (\Exception $e)&#123;</span><br><span class="line"></span><br><span class="line">            Log::error(&apos;get user failed by access_token:&apos;.$access_token.&apos;|&apos;.$e-&gt;getMessage());</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> //设置资源文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Route::middleware(&apos;auth:api&apos;)-&gt;get(&apos;/user&apos;, &apos;UserController@user&apos;); //routes/api.php文件中设置</span><br><span class="line">php artisan make:controller UserController //创建文件</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class UserController extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    public function user(Request $request)</span><br><span class="line">    &#123;</span><br><span class="line">        return $request-&gt;user();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/消息中心（逻辑）/" class="pre-post btn btn-default" title='消息中心（逻辑）'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            消息中心（逻辑）</span>
+    </a>
+    
+    
+    <a href="/OAuth2-0/" class="next-post btn btn-default" title='OAuth2.0'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            OAuth2.0</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "en",
+    clientID: "9406f48c8041bdb83500",
+    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
+    repo: "sexyphoenix.github.io",
+    owner: "sexyphoenix",
+    admin: ["sexyphoenix"],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+});
+gitalk.render('gitalk-container');
+</script>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#注册服务提供者"><span class="toc-text">注册服务提供者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#迁移数据库"><span class="toc-text">迁移数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生成加密健"><span class="toc-text">生成加密健</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置Passport（参考官方文档）"><span class="toc-text">配置Passport（参考官方文档）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#申请客户端以及私人访问令牌-（两种方式）"><span class="toc-text">申请客户端以及私人访问令牌 （两种方式）</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-命令形式（不方便客户注册）"><span class="toc-text">1. 命令形式（不方便客户注册）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-Passport-Vue-组件"><span class="toc-text">2. Passport Vue 组件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三方应用实现登录"><span class="toc-text">第三方应用实现登录</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-申请客户端"><span class="toc-text">1. 申请客户端</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#申请授权码和访问令牌"><span class="toc-text">申请授权码和访问令牌</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

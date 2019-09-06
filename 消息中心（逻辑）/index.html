@@ -1,0 +1,306 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="SexyPhoenix的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://sexyphoenix.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
+
+
+<meta name="description" content="前言
+在构建web应用的时候，很多功能需要我们即时更新信息。当服务器上的数据被更新后，能够在客户端即时且无刷新的同步信息。为了解决这个问题，出现了websocket协议。 它可以使服务器和客户端...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    消息中心（逻辑） |
+    
+    SexyPhoenix的博客
+</title>
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://raw.githubusercontent.com/SexyPhoenix/sexyphoenix.github.io/master/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <div class="branding">
+            
+            <h2>
+                I do and I understand
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://sexyphoenix.github.io">
+                        SexyPhoenix的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/PHP/"><i class="fa "></i>
+                                PHP</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/MySQL/"><i class="fa "></i>
+                                MySQL</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/网络/"><i class="fa "></i>
+                                网络</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/安全/"><i class="fa "></i>
+                                安全</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/ElasticSearch/"><i class="fa "></i>
+                                ElasticSearch</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="消息中心（逻辑）">
+            
+            消息中心（逻辑）
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/PHP/">PHP</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/09/06</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><hr>
+<p>在构建web应用的时候，很多功能需要我们即时更新信息。当服务器上的数据被更新后，能够在客户端即时且无刷新的同步信息。为了解决这个问题，出现了websocket协议。 它可以使服务器和客户端一直保持通信，且通信是双向的。而Laravel的事件广播让Websocket获取事件变的更加方便。<br>在我们的项目中（消息中心）用的就是Laravel的事件广播机制，接下来我会介绍下消息中心是如何运行的。</p>
+<h4 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h4><hr>
+<p>WebService是一种跨编程语言和跨操作系统平台的远程调用技术，可以让客户端调用服务端上面的方法。消息中心通过WebService技术，添加或者取消代办事件。<br>消息中心的事件广播是基于redis驱动的同步队列。<br>socket.io是nodejs对websocket协议的封装。socket.io分为客户端和服务端，通过websocket协议保持浏览器与服务器的双向通信。<br>laravel-echo-server 使用 socket.io 实现了Laravel 广播的服务端。<br>laravel-echo 是Laravel广播的客户端，支持socket.io 和 pusher，消息中心用的是socket.io<br>redis Pub/Sub ： redis使用字典这种数据类型实现了发布/订阅的功能，laravel-echo-server就是redis Pub/Sub 的订阅者，消费者进程向redis里面发布了一条事件，redis 通过Pub/Sub功能通知了laravel-echo-server。</p>
+<h4 id="消息广播"><a href="#消息广播" class="headerlink" title="消息广播"></a>消息广播</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/1.png" alt="image"><br>现在的代办功能其实分成了两个部分，第一个部分放在了新oa的event应用下，用于对事件信息的持久化以及对信息中心的通知。第二部分放在了信息中心系统（focusmessage），用于对用户客户端即时且无刷新的信息同步。</p>
+<h6 id="1-代办事件添加-删除"><a href="#1-代办事件添加-删除" class="headerlink" title="1. 代办事件添加/删除"></a>1. 代办事件添加/删除</h6><p>第三应用通过调用web api 将信息推送到webservice Service（A），Service端先对第三应用的ip做了判断，看是否在允许的地址里。通过，再对账号以及密码进行验证。两种验证只要有一种失败，就会返回验证失败信息。<br>验证通过后，信息进行持久化，写入数据库（B）以及更新日历（C），最后通知信息中心（D）。</p>
+<h6 id="2-消息中心"><a href="#2-消息中心" class="headerlink" title="2. 消息中心"></a>2. 消息中心</h6><p>消息中心获取到信息的更新，会对信息的来源ip做白名单判断，失败返回403，通过后广播这条信息，也就是推送到redis主队列中（E），消费者进程进行publish（F），laravel-echo-server接受到发布的信息后（G），通知socket.io service。 因为socket.io service和socket.io client 一直保持通信且一直监控相关频道中的事件，符合此频道中的事件后，发送给 socket.io client 后，laravel-echo 通过 socket.io 接受到信息，解析出信息后，显示给用户。</p>
+<h4 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h4><hr>
+<p>本来也想在本章写下如何搭建我们的信息中心，但想想感觉搭建的内容还是比较多的，就将如何搭建内容放在了下一章。此章就对待办事项的逻辑做了一下梳理。</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/消息中心（实现）/" class="pre-post btn btn-default" title='消息中心（实现）'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            消息中心（实现）</span>
+    </a>
+    
+    
+    <a href="/API认证系统Passport/" class="next-post btn btn-default" title='API认证系统Passport'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            API认证系统Passport</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "en",
+    clientID: "9406f48c8041bdb83500",
+    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
+    repo: "sexyphoenix.github.io",
+    owner: "sexyphoenix",
+    admin: ["sexyphoenix"],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+});
+gitalk.render('gitalk-container');
+</script>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#背景知识"><span class="toc-text">背景知识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#消息广播"><span class="toc-text">消息广播</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-代办事件添加-删除"><span class="toc-text">1. 代办事件添加/删除</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-消息中心"><span class="toc-text">2. 消息中心</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结尾"><span class="toc-text">结尾</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>
