@@ -22,8 +22,7 @@
 <meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
 
 
-<meta name="description" content="敬请期待
-">
+<meta name="description" content="这是一个分享技术的个人博客">
 
 
 <meta name="robots" content="all">
@@ -34,7 +33,7 @@
 
 <title>
     
-    ElasticSearch安装 |
+    分类: 其他 |
     
     SexyPhoenix的博客
 </title>
@@ -128,18 +127,18 @@
                         </li>
                         
                         <li role="presentation" class="text-center">
-                            <a href="/categories/ElasticSearch/"><i class="fa "></i>
-                                ElasticSearch</a>
+                            <a href="/categories/ELK/"><i class="fa "></i>
+                                ELK</a>
                         </li>
                         
                         <li role="presentation" class="text-center">
-                            <a href="/categories/工具/"><i class="fa "></i>
-                                工具</a>
+                            <a href="/categories/其他/"><i class="fa "></i>
+                                其他</a>
                         </li>
                         
                         <li role="presentation" class="text-center">
-                            <a href="/archives/"><i class="fa "></i>
-                                时间轴</a>
+                            <a href="/about/"><i class="fa "></i>
+                                关于我</a>
                         </li>
                         
                     </ul>
@@ -151,108 +150,125 @@
     <section class="content-wrap">
         <div class="container">
             <div class="row">
-                <main class="col-md-8 main-content m-post">
-                    <p id="process"></p>
-<article class="post">
-    <div class="post-head">
-        <h1 id="ElasticSearch安装">
-            
-            ElasticSearch安装
-            
-        </h1>
-        <div class="post-meta">
+                <main class="col-md-8 main-content ">
+                    <ol class="breadcrumb">
     
-    <span class="categories-meta fa-wrap">
-        <i class="fa fa-folder-open-o"></i>
-        <a class="category-link" href="/categories/ElasticSearch/">ElasticSearch</a>
-    </span>
+    <li>
+        其他
+    </li>
     
-    
-    <span class="fa-wrap">
-        <i class="fa fa-tags"></i>
-        <span class="tags-meta">
-            
-        </span>
-    </span>
-    
-    
-    
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">
-            2019/09/06</span>
-    </span>
-    
-    
-</div>
-        
-        
-    </div>
-    
-    <div class="post-body post-content">
-        <p>敬请期待</p>
+</ol>
 
-    </div>
+<article class="post">
     
-    <div class="post-footer">
-        <div>
-            
-            转载声明：
-            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
-            
-            
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/其他/Git基础使用/">
+                    Git基础使用</a>
+            </h1>
+            <div class="post-meta"> &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年09月06日
+                </time>
+            </div>
         </div>
-        <div>
+        <p class="brief">
             
-        </div>
+            前言
+Git是版本控制系统，由Linux开源社区开发。与其他的版本系统相比，Git更加快速，便捷。主要是Git存储的是快照，而非差异性比较。并且绝大数操作都是访问本地文件和资源，没有网络时也可以直接提交，等到有网时再推送到远程仓库。对...
+            
+        </p>
     </div>
 </article>
-<div class="article-nav prev-next-wrap clearfix">
-    
-    
-    <a href="/工具/Git基础使用/" class="next-post btn btn-default" title='Git基础使用'>
-        <span class="hidden-lg">下一篇</span>
-        <span class="hidden-xs">
-            Git基础使用</span><i class="fa fa-angle-right fa-fw"></i>
-    </a>
-    
-</div>
 
-<div id="comments">
-    
-<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
-<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
-<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
-<div id="gitalk-container"></div>
-<script type="text/javascript">
-var gitalk = new Gitalk({
-    // Gitalk配置
-    language: "en",
-    clientID: "9406f48c8041bdb83500",
-    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
-    repo: "sexyphoenix.github.io",
-    owner: "sexyphoenix",
-    admin: ["sexyphoenix"],
-    id: md5(location.pathname),
-    distractionFreeMode: true
-});
-gitalk.render('gitalk-container');
-</script>
-
-</div>
 
                 </main>
                 
-                    <aside id="article-toc" role="navigation" class="col-md-4">
-    <div class="widget">
-        <h3 class="title">
-            文章目录
-        </h3>
+                    
+<aside class="col-md-4 sidebar">
+    
+    
+<div class="widget">
+    <h3 class="title">
+        搜索
+    </h3>
+    <div id="search-form">
+        <div id="result-mask" class="hide"></div>
+        <div class="search-area">
+            
+            <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢？">
+            <button type="button" class="search-form-submit" id="search-local">
+                站内搜索</button>
+            
+            
+        </div>
+        <div id="result-wrap" class="hide">
+            <div id="search-result"></div>
+        </div>
+        <div class="hide">
+            <template id="search-tpl">
+                <div class="item">
+                    <a href="/{path}" title="{title}">
+                        <div class="title">{title}</div>
+                        <div class="content">{content}</div>
+                    </a>
+                </div>
+            </template>
+        </div>
+    </div>
+</div>
+
+    
+    
+<div class="widget">
+    <h3 class="title">
+        网站公告
+    </h3>
+    <div class="notification">
+        <p>
+    博客网站刚建立，发表的文章都是之前写在笔记的，现迁移到博客，仅供参考。
+</p>
+    </div>
+</div>
+
+    
+    
+<div class="widget">
+    <h3 class="title">
+        分类
+    </h3>
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ELK/"><i class="fa" aria-hidden="true">ELK</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/"><i class="fa" aria-hidden="true">MySQL</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/"><i class="fa" aria-hidden="true">PHP</i></a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/"><i class="fa" aria-hidden="true">其他</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/"><i class="fa" aria-hidden="true">安全</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/"><i class="fa" aria-hidden="true">网络</i></a><span class="category-list-count">1</span></li></ul>
+</div>
+
+    
+    
+<div class="widget">
+    <h3 class="title">
+        归档
+    </h3>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/"><i class="fa" aria-hidden="true">2019年09月</i></a><span class="archive-list-count">13</span></li></ul>
+</div>
+
+    
+    
+    
+    
+<div class="widget">
+    <h3 class="title">
+        友链
+    </h3>
+    <div class="content friends-link">
         
-        <p>暂无目录</p>
+        <a href="https://github.com/SexyPhoenix" class="fa" target="_blank">
+            SexyPhoenix GitHub</a>
         
     </div>
+</div>
+
+    
 </aside>
+
                 
             </div>
         </div>
@@ -288,6 +304,8 @@ gitalk.render('gitalk-container');
         </div>
     </div>
 </div>
+
+<script src="/js/search.js?rev=@@hash"></script>
 
 
 
