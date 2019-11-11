@@ -1,0 +1,339 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="SexyPhoenix的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://sexyphoenix.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
+
+
+<meta name="description" content="项目地址 BookSpider
+介绍
+本篇涉及的内容主要是获取分类下的所有图书数据，并写入MySQL
+准备
+Python3.6、Scrapy、Twisted、MySQLdb等
+演示
+
+代码
+一、...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    Scrapy爬取豆瓣图书数据并写入MySQL |
+    
+    SexyPhoenix的博客
+</title>
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://raw.githubusercontent.com/SexyPhoenix/sexyphoenix.github.io/master/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <div class="branding">
+            
+            <h2>
+                I do and I understand
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://sexyphoenix.github.io">
+                        SexyPhoenix的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/PHP/"><i class="fa "></i>
+                                PHP</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/Python/"><i class="fa "></i>
+                                Python</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/数据库/"><i class="fa "></i>
+                                数据库</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/网络/"><i class="fa "></i>
+                                网络</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/安全/"><i class="fa "></i>
+                                安全</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/其他/"><i class="fa "></i>
+                                其他</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于我</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Scrapy爬取豆瓣图书数据并写入MySQL">
+            
+            Scrapy爬取豆瓣图书数据并写入MySQL
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/Python/">Python</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/11/11</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <p>项目地址 <a href="https://github.com/SexyPhoenix/Robots/tree/master/BookSpider" target="_blank" rel="noopener">BookSpider</a></p>
+<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><hr>
+<p>本篇涉及的内容主要是获取分类下的所有图书数据，并写入MySQL</p>
+<h4 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h4><hr>
+<p>Python3.6、Scrapy、Twisted、MySQLdb等</p>
+<h4 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Python/book/1.png" alt="image"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><hr>
+<h6 id="一、创建项目"><a href="#一、创建项目" class="headerlink" title="一、创建项目"></a>一、创建项目</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject BookSpider  #创建项目</span><br><span class="line">scrapy genspider douban book.douban.com #创建豆瓣爬虫</span><br></pre></td></tr></table></figure>
+
+<h6 id="二、创建测试类（main-py）"><a href="#二、创建测试类（main-py）" class="headerlink" title="二、创建测试类（main.py）"></a>二、创建测试类（main.py）</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from scrapy.cmdline import execute</span><br><span class="line">execute([&apos;scrapy&apos;, &apos;crawl&apos;, &apos;douban&apos;])</span><br></pre></td></tr></table></figure>
+
+<h6 id="三、修改配置-spiders-settings-py"><a href="#三、修改配置-spiders-settings-py" class="headerlink" title="三、修改配置(spiders/settings.py)"></a>三、修改配置(spiders/settings.py)</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USER_AGENT = &apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&apos; #浏览器</span><br><span class="line">ROBOTSTXT_OBEY = False #不遵循豆瓣网站的爬虫协议</span><br></pre></td></tr></table></figure>
+
+<h6 id="四、设置爬取的分类（spiders-douban-py）"><a href="#四、设置爬取的分类（spiders-douban-py）" class="headerlink" title="四、设置爬取的分类（spiders/douban.py）"></a>四、设置爬取的分类（spiders/douban.py）</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start_urls = [&apos;https://book.douban.com/tag/神经网络&apos;] # 只测试爬取神经网络</span><br></pre></td></tr></table></figure>
+
+<h6 id="五、获取分类列表页图书数据"><a href="#五、获取分类列表页图书数据" class="headerlink" title="五、获取分类列表页图书数据"></a>五、获取分类列表页图书数据</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Python/book/2.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from scrapy.http import Request</span><br><span class="line">from urllib.parse import urljoin</span><br><span class="line"></span><br><span class="line">def parse(self, response):</span><br><span class="line">    </span><br><span class="line">    get_nodes = response.xpath(&apos;//div[@id=&quot;subject_list&quot;]/ul/li/div[@class=&quot;pic&quot;]/a&apos;)</span><br><span class="line">    for node in get_nodes:</span><br><span class="line">        url = node.xpath(&quot;@href&quot;).get()</span><br><span class="line">        img_url = node.xpath(&apos;img/@src&apos;).get()</span><br><span class="line">        yield Request(url=url, meta=&#123;&quot;img_url&quot;: img_url&#125;, callback=self.parse_book)  # 传递img_url值 放在meta里面， parse_book回调函数，获取的详情再分析</span><br><span class="line">        </span><br><span class="line">    next_url = response.xpath(&apos;//div[@class=&quot;paginator&quot;]/span[@class=&quot;next&quot;]/a/@href&apos;).get() # 获取下一页地址</span><br><span class="line">    if(next_url):</span><br><span class="line">        yield Request(url=urljoin(response.url, next_url), callback=self.parse) # 获取下一页内容</span><br></pre></td></tr></table></figure>
+
+<h6 id="六、定义数据模型（spiders-items-py）"><a href="#六、定义数据模型（spiders-items-py）" class="headerlink" title="六、定义数据模型（spiders/items.py）"></a>六、定义数据模型（spiders/items.py）</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class BookspiderItem(scrapy.Item):</span><br><span class="line">    # define the fields for your item here like:</span><br><span class="line">    # name = scrapy.Field()</span><br><span class="line">    name = scrapy.Field()</span><br><span class="line">    author = scrapy.Field()</span><br><span class="line">    publish = scrapy.Field()</span><br><span class="line">    page_num = scrapy.Field()</span><br><span class="line">    isbm = scrapy.Field()</span><br><span class="line">    binding = scrapy.Field()</span><br><span class="line">    publish_date = scrapy.Field()</span><br><span class="line">    price = scrapy.Field()</span><br><span class="line">    rate = scrapy.Field()</span><br><span class="line">    img_url = scrapy.Field()</span><br><span class="line">    image_path = scrapy.Field()</span><br></pre></td></tr></table></figure>
+
+<h6 id="七、获取图书详情数据"><a href="#七、获取图书详情数据" class="headerlink" title="七、获取图书详情数据"></a>七、获取图书详情数据</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Python/book/3.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import re</span><br><span class="line">from BookSpider.items import BookspiderItem</span><br><span class="line"></span><br><span class="line">def parse_book(self, response):</span><br><span class="line">    BookItem = BookspiderItem()</span><br><span class="line">    BookItem[&apos;name&apos;]     = response.xpath(&apos;//span[@property=&quot;v:itemreviewed&quot;]/text()&apos;).get(&quot;&quot;).strip()</span><br><span class="line">    BookItem[&apos;author&apos;]   = response.xpath(&apos;//span[contains(text(), &quot;作者&quot;)]/following-sibling::a[1]/text()&apos;).get(&quot;&quot;).split()[-1]</span><br><span class="line">    BookItem[&apos;publish&apos;]  = response.xpath(&apos;//span[contains(text(), &quot;出版社&quot;)]/following-sibling::text()&apos;).get(&quot;&quot;).strip()</span><br><span class="line">    </span><br><span class="line">    page_num = response.xpath(&apos;//span[contains(text(), &quot;页数&quot;)]/following-sibling::text()&apos;).get(&quot;&quot;).strip()</span><br><span class="line">    BookItem[&apos;page_num&apos;] = 0 if(page_num == &apos;&apos;) else page_num</span><br><span class="line"></span><br><span class="line">    BookItem[&apos;isbm&apos;]     = response.xpath(&apos;//span[contains(text(), &quot;ISBN&quot;)]/following-sibling::text()&apos;).get(&quot;&quot;).strip()</span><br><span class="line">    BookItem[&apos;binding&apos;]  = response.xpath(&apos;//span[contains(text(), &quot;装帧&quot;)]/following-sibling::text()&apos;).get(&quot;&quot;).strip()</span><br><span class="line">    BookItem[&apos;publish_date&apos;] = response.xpath(&apos;//span[contains(text(), &quot;出版年&quot;)]/following-sibling::text()&apos;).get(&quot;&quot;).strip()</span><br><span class="line"></span><br><span class="line">    price    = response.xpath(&apos;//span[contains(text(), &quot;定价&quot;)]/following-sibling::text()&apos;).get(&quot;&quot;).strip()</span><br><span class="line">    BookItem[&apos;price&apos;]    = &apos;&apos; if(len(price) == 0) else re.findall(r&apos;\d+\.?\d*&apos;, price)[0]</span><br><span class="line"></span><br><span class="line">    BookItem[&apos;rate&apos;] = response.xpath(&apos;//div[contains(@class, &quot;rating_self &quot;)]/strong/text()&apos;).get(&quot;&quot;).strip()</span><br><span class="line"></span><br><span class="line">    BookItem[&apos;img_url&apos;] = [response.meta.get(&apos;img_url&apos;)]  #图片是列表</span><br><span class="line">    </span><br><span class="line">    yield BookItem</span><br></pre></td></tr></table></figure>
+
+<h6 id="八、下载图片"><a href="#八、下载图片" class="headerlink" title="八、下载图片"></a>八、下载图片</h6><p>1、创建images文件加<br>2、配置spiders/settings.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">    &apos;BookSpider.pipelines.ImageStorePipeline&apos;: 1,  #后面的数据是优先级</span><br><span class="line">&#125;</span><br><span class="line">IMAGES_URLS_FIELD = &quot;image_url&quot;</span><br><span class="line">IMAGES_STORE = os.path.join(os.path.abspath(os.path.dirname(__file__)), &apos;images&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>3、创建ImageStorePipeline类（spiders/pipelines.py）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">from scrapy.pipelines.images import ImagesPipeline</span><br><span class="line">from scrapy.exceptions import DropItem</span><br><span class="line">from scrapy.http import Request</span><br><span class="line"></span><br><span class="line">class ImageStorePipeline(ImagesPipeline):</span><br><span class="line"></span><br><span class="line">    default_headers = &#123;</span><br><span class="line">        &apos;accept&apos;: &apos;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3&apos;,</span><br><span class="line">        &apos;accept-encoding&apos;: &apos;gzip, deflate, br&apos;,</span><br><span class="line">        &apos;accept-language&apos;: &apos;zh-CN,zh;q=0.9&apos;,</span><br><span class="line">        &apos;user-agent&apos;: &apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&apos;, #这个一定要</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    def get_media_requests(self, item, info):</span><br><span class="line">        for image_url in item[&apos;img_url&apos;]:</span><br><span class="line">            self.default_headers[&apos;referer&apos;] = image_url</span><br><span class="line">            yield Request(image_url, headers=self.default_headers)</span><br><span class="line"></span><br><span class="line">    def item_completed(self, results, item, info):</span><br><span class="line">        image_path = [x[&apos;path&apos;] for ok, x in results if ok]</span><br><span class="line">        if not image_path:</span><br><span class="line">            raise DropItem(&quot;Item contains no images&quot;)</span><br><span class="line">        item[&apos;image_path&apos;] = image_path</span><br><span class="line">        return item</span><br></pre></td></tr></table></figure>
+
+<h6 id="八、写入数据库"><a href="#八、写入数据库" class="headerlink" title="八、写入数据库"></a>八、写入数据库</h6><p>1、配置spiders/settings.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#设置数据库</span><br><span class="line">MYSQL_HOST   = &quot;&quot;</span><br><span class="line">MYSQL_DBNAME = &quot;&quot;</span><br><span class="line">MYSQL_USER   = &quot;&quot;</span><br><span class="line">MYSQL_PASSWORD = &quot;&quot;</span><br><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">    &apos;BookSpider.pipelines.ImageStorePipeline&apos;: 1,</span><br><span class="line">    &apos;BookSpider.pipelines.MysqlTwistedPipeline&apos;: 30,  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、创建MysqlTwistedPipeline类（spiders/pipelines.py）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import MySQLdb.cursors</span><br><span class="line">from twisted.enterprise import adbapi</span><br><span class="line"></span><br><span class="line">class MysqlTwistedPipeline(object):</span><br><span class="line">    def __init__(self, dbpool):</span><br><span class="line">        self.dbpool = dbpool</span><br><span class="line"></span><br><span class="line">    @classmethod #静态方法，会优先执行from_settings， 这样self.dbpool就有值了</span><br><span class="line">    def from_settings(cls, settings):</span><br><span class="line"></span><br><span class="line">        dbpool = adbapi.ConnectionPool(&quot;MySQLdb&quot;, host=settings[&apos;MYSQL_HOST&apos;], db = settings[&apos;MYSQL_DBNAME&apos;], user = settings[&apos;MYSQL_USER&apos;], passwd = settings[&apos;MYSQL_PASSWORD&apos;], charset = &apos;utf8&apos;, cursorclass = MySQLdb.cursors.DictCursor, use_unicode = True)</span><br><span class="line"></span><br><span class="line">        return cls(dbpool)</span><br><span class="line"></span><br><span class="line">    def process_item(self, item, spider):</span><br><span class="line">        query = self.dbpool.runInteraction(self.do_insert, item)</span><br><span class="line">        query.addErrback(self.handle_error,item,spider)</span><br><span class="line">    </span><br><span class="line">    def do_insert(self, cursor, item):</span><br><span class="line">        insert_sql = &quot;&quot;&quot;</span><br><span class="line">            insert into douban(name, author, publish, page_num, isbm, binding, publish_date, price, rate, img_url, image_path)</span><br><span class="line">            values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        cursor.execute(insert_sql, (item[&apos;name&apos;], item[&apos;author&apos;], item[&apos;publish&apos;], item[&apos;page_num&apos;], item[&apos;isbm&apos;], item[&apos;binding&apos;], item[&apos;publish_date&apos;], item[&apos;price&apos;], item[&apos;rate&apos;], item[&apos;img_url&apos;], item[&apos;image_path&apos;]))</span><br><span class="line"></span><br><span class="line">    def handle_error(self, failure, item, spider):</span><br><span class="line">        print(failure)</span><br></pre></td></tr></table></figure>
+
+<h6 id="九、测试"><a href="#九、测试" class="headerlink" title="九、测试"></a>九、测试</h6><p>1、执行main.py文件</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+    <a href="/Python/DouBan/" class="next-post btn btn-default" title='Python3获取豆瓣图书标签的前20本热门书籍（一）'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            Python3获取豆瓣图书标签的前20本热门书籍（一）</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "en",
+    clientID: "9406f48c8041bdb83500",
+    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
+    repo: "sexyphoenix.github.io",
+    owner: "sexyphoenix",
+    admin: ["sexyphoenix"],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+});
+gitalk.render('gitalk-container');
+</script>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#演示"><span class="toc-text">演示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#一、创建项目"><span class="toc-text">一、创建项目</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#二、创建测试类（main-py）"><span class="toc-text">二、创建测试类（main.py）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#三、修改配置-spiders-settings-py"><span class="toc-text">三、修改配置(spiders/settings.py)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#四、设置爬取的分类（spiders-douban-py）"><span class="toc-text">四、设置爬取的分类（spiders/douban.py）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#五、获取分类列表页图书数据"><span class="toc-text">五、获取分类列表页图书数据</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#六、定义数据模型（spiders-items-py）"><span class="toc-text">六、定义数据模型（spiders/items.py）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#七、获取图书详情数据"><span class="toc-text">七、获取图书详情数据</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#八、下载图片"><span class="toc-text">八、下载图片</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#八、写入数据库"><span class="toc-text">八、写入数据库</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#九、测试"><span class="toc-text">九、测试</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>
