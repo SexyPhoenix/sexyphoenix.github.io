@@ -1,0 +1,415 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="SexyPhoenix的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://sexyphoenix.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
+
+
+<meta name="description" content="目的
+本文主要介绍的内容有以下三点：一. Elastic Stack是什么以及组成部分二. Elastic Stack前景以及业务应用三. Elasticsearch原理（索引方向）四. Ela...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    Elastic Stack 开源的大数据解决方案 |
+    
+    SexyPhoenix的博客
+</title>
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://raw.githubusercontent.com/SexyPhoenix/sexyphoenix.github.io/master/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <div class="branding">
+            
+            <h2>
+                I do and I understand
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://sexyphoenix.github.io">
+                        SexyPhoenix的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/PHP/"><i class="fa "></i>
+                                PHP</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/Python/"><i class="fa "></i>
+                                Python</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/数据库/"><i class="fa "></i>
+                                数据库</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/网络/"><i class="fa "></i>
+                                网络</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/安全/"><i class="fa "></i>
+                                安全</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/其他/"><i class="fa "></i>
+                                其他</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于我</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Elastic Stack 开源的大数据解决方案">
+            
+            Elastic Stack 开源的大数据解决方案
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/数据库/">数据库</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/09/06</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><hr>
+<p>本文主要介绍的内容有以下三点：<br>一. Elastic Stack是什么以及组成部分<br>二. Elastic Stack前景以及业务应用<br>三. Elasticsearch原理（索引方向）<br>四. Elasticsearch相对薄弱的地方</p>
+<h4 id="一、Elastic-Stack是什么以及组成部分"><a href="#一、Elastic-Stack是什么以及组成部分" class="headerlink" title="一、Elastic Stack是什么以及组成部分"></a>一、Elastic Stack是什么以及组成部分</h4><hr>
+<p>介绍Elastic Stack是什么，其实只要一句话就可以，就是: <strong>一套完整的大数据处理堆栈，从摄入、转换到存储分析、可视化</strong>。</p>
+<p>它是不同产品的集合，各司其职，形成完整的数据处理链，因此Elastic Stack也可以简称为BLEK。</p>
+<p><strong><em>Beats</em></strong> 轻量型数据采集器</p>
+<p><strong><em>Logstash</em></strong> 输入、过滤器和输出</p>
+<p><strong><em>Elasticsearch</em></strong> 查询和分析</p>
+<p><strong><em>Kibana</em></strong> 可视化，可自由选择如何呈现数据</p>
+<h6 id="1-Beats-全品类采集器，搞定所有数据类型"><a href="#1-Beats-全品类采集器，搞定所有数据类型" class="headerlink" title="1. Beats - 全品类采集器，搞定所有数据类型"></a>1. Beats - 全品类采集器，搞定所有数据类型</h6><p>Filebeat（日志文件）：对成百上千、甚至上万的服务器生成的日志汇总，可搜索。</p>
+<p>Metricbeat（指标）: 收集系统和服务指标，CPU 使用率、内存、文件系统、磁盘 IO 和网络 IO 统计数据。</p>
+<p>Packetbeat（网络数据）：网络数据包分析器，了解应用程序动态。</p>
+<p>Heartbeat（运行时间监控）：通过主动探测来监测服务的可用性<br>……<br>Beats支持许许多多的beat，这里列的都是比较的常用的beat，了解更多可以点击链接：<a href="https://www.elastic.co/guide/en/beats/libbeat/current/community-beats.html" target="_blank" rel="noopener">Beats 社区</a></p>
+<h6 id="2-Logstash-服务器端数据处理管道"><a href="#2-Logstash-服务器端数据处理管道" class="headerlink" title="2. Logstash - 服务器端数据处理管道"></a>2. Logstash - 服务器端数据处理管道</h6><p>介绍Logstash之前，我们先来看下Linux下常用的几个命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat alldata.txt | awk ‘&#123;print $1&#125;’ | sort | uniq | tee filterdata.txt</span><br></pre></td></tr></table></figure>
+
+<p>只要接触过Linux同学，应该都知道这几个命名意思</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat alldata.txt #将cat alldata.txt的内容输出到标准设备上</span><br><span class="line">awk ‘&#123;print $1&#125;’ #对上面的内容做截取，只取每一行第一列数据</span><br><span class="line">sort | uniq  #对截取后的内容，进行排序和唯一性操作</span><br><span class="line">tee filterdata.txt #将上面的内容写到filterdata.txt</span><br></pre></td></tr></table></figure>
+
+<p>上面的几个简单的命令就可以看出来，这是对数据进行了常规的处理，用名词修饰的话就是：<strong>数据获取/输入</strong>、<strong>数据清洗</strong>、<strong>数据过滤</strong>、<strong>数据写入/输出</strong></p>
+<p>而Logstash做的也是相同的事（看下图）。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/1.png" alt="1"></p>
+<p>将系统的日志文件、应用日志文件、系统指标等数据，输入到Input，再通过数据清洗以及过滤，输入到存储设备中，这里当然是输入到Elasticsearch</p>
+<h6 id="3-Elasticsearch-分布式文档存储、RESTful风格的搜索和数据分析引擎"><a href="#3-Elasticsearch-分布式文档存储、RESTful风格的搜索和数据分析引擎" class="headerlink" title="3. Elasticsearch - 分布式文档存储、RESTful风格的搜索和数据分析引擎"></a>3. Elasticsearch - 分布式文档存储、RESTful风格的搜索和数据分析引擎</h6><p>Elasticsearch主要也是最原始的功能就是搜索和分析功能。这里就简单说一下，下面讲原理的时候会着重讲到Elasticsearch</p>
+<p>搜索：全文搜索，完整的信息源转化为计算机可以识别、处理的信息单元形成的数据集合 。</p>
+<p>分析：相关度，搜索所有内容，找到所需的具体信息（词频或热度等对结果排序）</p>
+<h6 id="4-Kibana-可视化"><a href="#4-Kibana-可视化" class="headerlink" title="4. Kibana- 可视化"></a>4. Kibana- 可视化</h6><p>可视化看下图（来源官网）便知</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/2.png" alt="2"></p>
+<p>可以对日志分析、业务分析等做可视化</p>
+<p>现在从总体上来了解下，在心中对Elastic Stack有个清楚的认知（下图）。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/3.png" alt="3"></p>
+<h4 id="二、Elastic-Stack前景以及业务应用"><a href="#二、Elastic-Stack前景以及业务应用" class="headerlink" title="二、Elastic Stack前景以及业务应用"></a>二、Elastic Stack前景以及业务应用</h4><h6 id="1-DB-Engines-排名"><a href="#1-DB-Engines-排名" class="headerlink" title="1. DB-Engines 排名"></a>1. DB-Engines 排名</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/4.png" alt="4"></p>
+<p>Elasticsearch是Elastic Stack核心，由图可以看出在搜索领域Elasticsearch暂时没有对手。</p>
+<h6 id="2-ES社区"><a href="#2-ES社区" class="headerlink" title="2. ES社区"></a>2. ES社区</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/5.png" alt="5"></p>
+<p>ES中文社区也是相当活跃的，会定期做一下分享，都是大公司的宝贵经验，值得参考。</p>
+<h6 id="3-2018年携程的使用情况（让我们看看能处理多大的数据）"><a href="#3-2018年携程的使用情况（让我们看看能处理多大的数据）" class="headerlink" title="3. 2018年携程的使用情况（让我们看看能处理多大的数据）"></a>3. 2018年携程的使用情况（让我们看看能处理多大的数据）</h6><p>集群数量是94个，最小的集群一般是3个节点。全部节点数量大概700+。</p>
+<p>最大的一个集群是做日志分析的，其中数据节点330个，最高峰一天产生1600亿文档，写入值300w/s。</p>
+<p>现在有2.5万亿文档，大概是几个PB的量</p>
+<h4 id="三、Elasticsearch（ES）原理"><a href="#三、Elasticsearch（ES）原理" class="headerlink" title="三、Elasticsearch（ES）原理"></a>三、Elasticsearch（ES）原理</h4><p>因为篇目有限，本篇只介绍ES的索引原理。</p>
+<p>ES为什么可以做全文搜索，主要就是用了<strong>倒排索引</strong>，先来看下面的一张图</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/6.png" alt="6"></p>
+<p>看图可以简单的理解倒排索引就是：关键字 + 页码</p>
+<p>对倒排索引有个基本的认识后，下面来做个简单的数据例子。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/7.png" alt="7"></p>
+<p>现在对Name做到排索引，记住：关键字 + ID（页码）。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/8.png" alt="8"></p>
+<p>对Age做到排索引。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/9.png" alt="9"></p>
+<p>对Intersets做到排索引。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/10.png" alt="10"></p>
+<p>现在搜索Age等于18的，通过倒排索引就可以快速得到1和3的id，再通过id就可以得到具体数据，看，这样是不是快的狠。</p>
+<p>如果是用Mysql等关系数据库，现在有十多亿数据（大数据嘛）,就要一条一条的扫描下去找id，效率可想而知。而用倒排索引，早到所有的id就轻轻松松了。</p>
+<p>在ES中，关键词叫Term，页码叫Posting List。</p>
+<p>但这样就行了吗？ 如果Name有上亿个Term，要找最后一个Term，效率岂不是还是很低？</p>
+<p>再来看Name的倒排索引，你会发现，将Armani放在了第一个，Tyloo放在了第三个，可以看出来，对Term做了简单的排序。虽然简单，但很实用。这样查找Term就可以用二分查找法来查找了，将复杂度由n变成了logn。</p>
+<p>在ES中，这叫Term Dictionary。</p>
+<p>到这里，再来想想MySQL的b+tree， 你有没有发现原理是差不多的，那为什么说ES搜索比MySQL快很多，究竟快在哪里？ 接下来再看。</p>
+<p>有一种数据结构叫Trie树，又称前缀树或字典树，是一种有序树。这种数据结构的好处就是可以压缩前缀和提高查询数据。</p>
+<p>现在有这么一组<strong>Term：</strong> apps, apple, apply, appear, back, backup, base, bear，用Trie树表示如下图。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/11.png" alt="11"></p>
+<p>通过线路路径字符连接就可以得到完成的Term，并且合用了前缀，比如apps, apple, apply, appear合用了app路径，节省了大量空间。</p>
+<p>这个时候再来找base单词，立即就可以排除了a字符开头的单词，比Term Dictionary快了不知多少。</p>
+<p>在ES中，这叫Term Index</p>
+<p>现在我们再从整体看下ES的索引</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/12.png" alt="12"></p>
+<p>先通过Trie树快速定位block（相当于页码）, 再到Term Dictionary 做二分查找，得到Posting List。</p>
+<h6 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a>索引优化</h6><p>ES是为了大数据而生的，这意味着ES要处理大量的数据，它的Term数据量也是不可想象的。比如一篇文章，要做全文索引，就会对全篇的内容做分词，会产生大量的Term，而ES查询的时候，这些Term肯定要放在内存里面的。</p>
+<p>虽然Trie树对前缀做了压缩，但在大量Term面前还是不够，会占用大量的内存使用，于是就有ES对Trie树进一步演化。</p>
+<p>FST（Finite State Transducer ）确定无环有限状态转移器 （看下图）</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/13.png" alt="13"></p>
+<p>可以看appear、bear 对共同的后缀做了压缩。</p>
+<h6 id="Posting-List磁盘压缩"><a href="#Posting-List磁盘压缩" class="headerlink" title="Posting List磁盘压缩"></a>Posting List磁盘压缩</h6><p>假设有一亿的用户数据，现在对性别做搜索，而性别无非两种，可能”男”就有五千万之多，按int4个字节存储，就要消耗50M左右的磁盘空间，而这仅仅是其中一个Term。</p>
+<p>那么面对成千上万的Term，ES究竟是怎么存储的呢？接下来，就来看看ES的压缩方法。</p>
+<p>*<em>Frame Of Reference （FOR） 增量编码压缩，将大数变小数，按字节存储 *</em></p>
+<p>只要能把握“增量，大数变小数，按字节存储”这几个关键词，这个算法就很好理解，现在来具体看看。</p>
+<p>现在有一组Posting List：[60, 150, 300,310, 315, 340], 按正常的int型存储，size = 6 * 4（24）个字节。</p>
+<ol>
+<li><p>按增量存储：60 + 90（150）+ 150（300） + 10（310） + 5（315）+ 25（340），也就是[60, 90, 150, 10, 5, 25]，这样就将大数变成了小数。</p>
+</li>
+<li><p>切分成不同的block：[60, 90, 150]、[10, 5, 25]，为什么要切分，下面讲。</p>
+</li>
+<li><p>按字节存储：对于[60, 90, 150]这组block，究竟怎么按字节存储，其实很简单，就是找其中最大的一个值，看X个比特能表示这个最大的数，那么剩下的数也用X个比特表示（切分，可以尽可能的压缩空间）。</p>
+</li>
+</ol>
+<p>[60, 90, 150]最大数150 &lt; 2^8 = 256，也就是这组每个数都用8个比特表示，也就是 3*8 = 24个比特，再除以8，也就是3个字节存在，再加上一个8的标识位（说明每个数是8个比特存储）,占用一个字节，一共4个字节。</p>
+<p>[10, 5, 25]最大数25 &lt; 2^5 = 32，每个数用5个比特表示，3*5=15比特，除以8，大约2个字节，加上5的标识位，一共3个字节。</p>
+<p>那么总体size = 4 + 3（7）个字节，相当于24个字节，大大压缩了空间。</p>
+<p>再看下图表示</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/14.png" alt="14"></p>
+<h6 id="Posting-List内存压缩"><a href="#Posting-List内存压缩" class="headerlink" title="Posting List内存压缩"></a>Posting List内存压缩</h6><p>同学们应该都知道越复杂的算法消耗的CPU性能就越大，比如常见的https，第一次交互会用非对称密码来验证，验证通过后就转变成了对称密码验证，FOR同样如此，那么ES是用什么算法压缩内存中的Posting List呢？</p>
+<p><strong>Roaring Bitmaps 压缩位图索引</strong> </p>
+<p>Roaring Bitmaps 涉及到两种数据结构  short[] 、bitmap。 </p>
+<p>short好理解就是2个字节的整型。</p>
+<p>bitmap就是用比特表示数据，看下面的例子。</p>
+<p>Posting List：[1, 2, 4, 7, 10] -&gt; [1, 1, 0, 1, 0, 0, 1,0, 0, 1]，取最大的值10，那么就用10个比特表示这组Posting List，第1, 2, 4, 7, 10位存在，就将相对应的“位”置为1，其他的为0。</p>
+<p>但这种bitmap数据结构有缺陷，看这组Posting List： [1, 3, 100000000] -&gt; [1, 0, 1, 0, 0, 0, …, 0, 0, 1 ]，最大数是1亿，就要1亿的比特表示，这么算下来，反而消耗了更多的内存。</p>
+<p>那如何解决这个问题，其实也很简单，跟上面一样，<strong>将大数变成小数</strong>。</p>
+<p>看下图：</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/15.png" alt="15"></p>
+<p>第一步：将每个数除以65536，得到（商，余数）。</p>
+<p>第二步：按照商，分成不同的block，也就是相同的商，放在同一个block里面，余数就是这个值在这个block里面的位置（永远不会超过65536，余数嘛）。</p>
+<p>第三步：判断底层block用什么数据结构存储数据，如果block里面的余数的个数超过4096个，就用short存储，反之bitmap。</p>
+<p>上面那个图是官网的图，看下我画的图，可能更好理解些。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/16.png" alt="16"></p>
+<p>到这里，ES的索引原理就讲完了，希望大家都能理解。</p>
+<h4 id="四、Elasticsearch（ES）相对薄弱的地方"><a href="#四、Elasticsearch（ES）相对薄弱的地方" class="headerlink" title="四、Elasticsearch（ES）相对薄弱的地方"></a>四、Elasticsearch（ES）相对薄弱的地方</h4><h6 id="1-多表关联"><a href="#1-多表关联" class="headerlink" title="1. 多表关联"></a>1. 多表关联</h6><p>其实ES有一个很重要的特性这里没有介绍到，也就是分布式，每一个节点的数据和，才是整体数据。</p>
+<p>这也导致了多表关联问题，虽然ES里面也提供了Nested&amp; Join 方法解决这个问题，但这里还是不建议用。</p>
+<p>那这个问题在实际应用中应该如何解决？ 其实也很简单，装换思路，ES无法解决，就到其他层解决，比如：应用层，用面向对象的架构，拆分查询。</p>
+<h6 id="2-深度分页"><a href="#2-深度分页" class="headerlink" title="2. 深度分页"></a>2. 深度分页</h6><p>分布式架构下，取数据便不是那么简单，比如取前1000条数据，如果是10个节点，那么每个节点都要取1000条，10个节点就是10000条，排序后，返回前1000条，如果是深度分页就会变的相当的慢。</p>
+<p>ES提供的是Scroll + Scroll_after，但这个采取的是缓存的方式，取出10000条后，缓存在内存里，再来翻页的时候，直接从缓存中取，这就代表着存在实时性问题。</p>
+<p>来看看百度是怎么解决这个问题的。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Elastic/17.png" alt="17"></p>
+<p>一样在应用层解决，翻页到一定的深度后，禁止翻页。</p>
+<h6 id="3-更新应用"><a href="#3-更新应用" class="headerlink" title="3. 更新应用"></a>3. 更新应用</h6><p>频繁更新的应用，用ES会有瓶颈，比如一些游戏应用，要不断的更新数据，用ES不是太适合，这个看大家自己的应用情况。</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/Python/DouBan/" class="pre-post btn btn-default" title='Python3获取豆瓣图书标签的前20本热门书籍（一）'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            Python3获取豆瓣图书标签的前20本热门书籍（一）</span>
+    </a>
+    
+    
+    <a href="/其他/Git基础使用/" class="next-post btn btn-default" title='Git基础使用'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            Git基础使用</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "en",
+    clientID: "9406f48c8041bdb83500",
+    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
+    repo: "sexyphoenix.github.io",
+    owner: "sexyphoenix",
+    admin: ["sexyphoenix"],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+});
+gitalk.render('gitalk-container');
+</script>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#目的"><span class="toc-text">目的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一、Elastic-Stack是什么以及组成部分"><span class="toc-text">一、Elastic Stack是什么以及组成部分</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-Beats-全品类采集器，搞定所有数据类型"><span class="toc-text">1. Beats - 全品类采集器，搞定所有数据类型</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-Logstash-服务器端数据处理管道"><span class="toc-text">2. Logstash - 服务器端数据处理管道</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-Elasticsearch-分布式文档存储、RESTful风格的搜索和数据分析引擎"><span class="toc-text">3. Elasticsearch - 分布式文档存储、RESTful风格的搜索和数据分析引擎</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-Kibana-可视化"><span class="toc-text">4. Kibana- 可视化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、Elastic-Stack前景以及业务应用"><span class="toc-text">二、Elastic Stack前景以及业务应用</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-DB-Engines-排名"><span class="toc-text">1. DB-Engines 排名</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-ES社区"><span class="toc-text">2. ES社区</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-2018年携程的使用情况（让我们看看能处理多大的数据）"><span class="toc-text">3. 2018年携程的使用情况（让我们看看能处理多大的数据）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、Elasticsearch（ES）原理"><span class="toc-text">三、Elasticsearch（ES）原理</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#索引优化"><span class="toc-text">索引优化</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Posting-List磁盘压缩"><span class="toc-text">Posting List磁盘压缩</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Posting-List内存压缩"><span class="toc-text">Posting List内存压缩</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四、Elasticsearch（ES）相对薄弱的地方"><span class="toc-text">四、Elasticsearch（ES）相对薄弱的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-多表关联"><span class="toc-text">1. 多表关联</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-深度分页"><span class="toc-text">2. 深度分页</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-更新应用"><span class="toc-text">3. 更新应用</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>
