@@ -1,0 +1,371 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="SexyPhoenix的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://sexyphoenix.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
+
+
+<meta name="description" content="目的
+本文主要介绍以下两点：
+一. 如何在Oracle VM VirtualBox安装centos（已有VirtualBox）
+二. 如何在内网里实现虚拟机访问外网、物理主机以及物理主机访问虚拟...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    【Linux系列】Centos 7安装以及网络配置（一） |
+    
+    SexyPhoenix的博客
+</title>
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://raw.githubusercontent.com/SexyPhoenix/sexyphoenix.github.io/master/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <div class="branding">
+            
+            <h2>
+                I do and I understand
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://sexyphoenix.github.io">
+                        SexyPhoenix的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/PHP/"><i class="fa "></i>
+                                PHP</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/Python/"><i class="fa "></i>
+                                Python</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/Linux/"><i class="fa "></i>
+                                Linux</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/数据库/"><i class="fa "></i>
+                                数据库</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/网络/"><i class="fa "></i>
+                                网络</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/安全/"><i class="fa "></i>
+                                安全</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/其他/"><i class="fa "></i>
+                                其他</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于我</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="【Linux系列】Centos 7安装以及网络配置（一）">
+            
+            【Linux系列】Centos 7安装以及网络配置（一）
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/11/18</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><hr>
+<p>本文主要介绍以下两点：</p>
+<p>一. 如何在Oracle VM VirtualBox安装centos（已有VirtualBox）</p>
+<p>二. 如何在内网里实现虚拟机访问外网、物理主机以及物理主机访问虚拟机</p>
+<h4 id="一、如何在Oracle-VM-VirtualBox安装centos"><a href="#一、如何在Oracle-VM-VirtualBox安装centos" class="headerlink" title="一、如何在Oracle VM VirtualBox安装centos"></a>一、如何在Oracle VM VirtualBox安装centos</h4><hr>
+<h6 id="1-下载centos7"><a href="#1-下载centos7" class="headerlink" title="1. 下载centos7"></a>1. 下载centos7</h6><p>打开<a href="https://opsx.alibaba.com/mirror" target="_blank" rel="noopener">阿里云开源镜像站</a>，点击右边按钮“下载OS镜像”。</p>
+<p>发行版选择“centos”，版本选择“7(x86_64-DVD-1908)”（有兴趣的可以选择8），点击下载。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/0.png" alt="0"></p>
+<h6 id="2-安装centos"><a href="#2-安装centos" class="headerlink" title="2. 安装centos"></a>2. 安装centos</h6><p>下载完成后，打开Oracle VM VirtualBox软件，点击“新建”。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/1.png" alt="1"></p>
+<p>接下来，会分配内存，新建虚拟硬盘，大家可以根据实际情况分配大小（如果做开发环境，设备允许的话，可以分配2g内存，40g虚拟硬盘）, 这里一路默认值。</p>
+<p>虚拟机创建完成后，开始安装centos操作系统，点击“启动”。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/2.png" alt="2"></p>
+<p>选择下载的centos镜像</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/3.png" alt="3"></p>
+<p><strong>回车</strong>安装</p>
+<p>出现语言选择界面，选择“English”。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/4.png" alt="4"></p>
+<p>设置时区，Asia/ShangHai。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/5.png" alt="5"></p>
+<p>打开网络，会自动获取。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/6.png" alt="6"></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/7.png" alt="7"></p>
+<p>继续，初试化root密码，<strong>密码一定要记住</strong>，下面要用到。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/8.png" alt="8"></p>
+<p>等待操作系统安装成功，点击Reboot。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/9.png" alt="9"></p>
+<p>重启成功后，输入root，以及上面设置的密码，即可进入操作系统。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/10.png" alt="10"></p>
+<h4 id="二、-如何在内网里实现虚拟机访问外网、物理主机以及物理主机访问虚拟机"><a href="#二、-如何在内网里实现虚拟机访问外网、物理主机以及物理主机访问虚拟机" class="headerlink" title="二、 如何在内网里实现虚拟机访问外网、物理主机以及物理主机访问虚拟机"></a>二、 如何在内网里实现虚拟机访问外网、物理主机以及物理主机访问虚拟机</h4><hr>
+<p>此时的虚拟机是可以访问网络，以及物理主机的。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/11.png" alt="11"></p>
+<p>查看虚拟机ip</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/12.png" alt="12"></p>
+<p>当用物理主机访问虚拟机的时候，却发现访问不到，因为不在一个网段里。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/13.png" alt="13"></p>
+<p>满足虚拟机访问外网、物理主机以及物理主机访问虚拟机，其实有三种网络模式可以实现。</p>
+<ol>
+<li><p>Bridged（桥接模式）</p>
+</li>
+<li><p>NAT（网络地址转换模式）</p>
+</li>
+<li><p>Host-Only（仅主机模式）</p>
+</li>
+</ol>
+<p>其中桥接模式是最简单，只要将虚拟机的网络 -&gt; 网卡的连接方式选择为桥接方式。并且在物理主机段中找到一个可用的ip，到虚拟机的网卡配置里，设置这个ip，就可以实现上面的结果。</p>
+<p>但是呢，这种方式有个缺陷，虚拟机会占用一个真实的ip地址。在公司的内网中，这就是个很麻烦的一件事，资源有限，一般都是一个员工账号绑定一个固定ip。</p>
+<p>NAT和Host-Only其实也都可以独只实现上面的结果，不过呢，比较繁琐，为了简单，这里采用结合的方式来实现虚拟机访问外网、物理主机以及物理主机访问虚拟机。</p>
+<p>这里使用的NAT结合Host-Only模式。</p>
+<p>在Oracle VM VirtualBox中<strong>关闭新建的虚拟机</strong>，右击，选择“设置” -&gt; “网络”。</p>
+<p>网卡1，使用网络地址转换。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/14.png" alt="14"></p>
+<p>网卡2，选择仅主机网络，<strong>同时选择适配器</strong>。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/15.png" alt="15"></p>
+<p>回到物理主机，查看适配器网段。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/16.png" alt="16"></p>
+<p>进入虚拟机的操作系统，设置网卡。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/sysconfig/network-scripts </span><br><span class="line">cp ifcfg-enp0s3 ifcfg-enp0s8 #复制一份</span><br><span class="line">vi ifcfg-enp0s8 #修改网卡</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">TYPE=&quot;Ethernet&quot;</span><br><span class="line">PROXY_METHOD=&quot;none&quot;</span><br><span class="line">BROWSER_ONLY=&quot;no&quot;</span><br><span class="line">BOOTPROTO=&quot;static&quot; #修改静态</span><br><span class="line">DEFROUTE=&quot;yes&quot;</span><br><span class="line">IPV4_FAILURE_FATAL=&quot;no&quot;</span><br><span class="line">IPV6INIT=&quot;yes&quot;</span><br><span class="line">IPV6_AUTOCONF=&quot;yes&quot;</span><br><span class="line">IPV6_DEFROUTE=&quot;yes&quot;</span><br><span class="line">IPV6_FAILURE_FATAL=&quot;no&quot;</span><br><span class="line">IPV6_ADDR_GEN_MODE=&quot;stable-privacy&quot;</span><br><span class="line">NAME=&quot;enp0s8&quot; # 修改网卡名</span><br><span class="line">DEVICE=&quot;enp0s8&quot; # 修改设备名</span><br><span class="line">ONBOOT=&quot;yes&quot;</span><br><span class="line">IPADDR=&quot;192.168.10.17&quot; # 物理主机上的设配器网端是192.168.10.1（相当于网络出入口，路由器）， 随便设置一个端的未用的ip。</span><br><span class="line">PREFIX=&quot;24&quot; # 网关</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network restart # 重启</span><br></pre></td></tr></table></figure>
+
+<p>查看网卡 ip addr</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/17.png" alt="17"></p>
+<p>物理主机ping虚拟机</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/18.png" alt="18"></p>
+<p>虚拟机ping物理主机、虚拟机ping网络</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/19.png" alt="19"></p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+    <a href="/Python/Scrapy爬取豆瓣图书数据并写入MySQL/" class="next-post btn btn-default" title='Scrapy爬取豆瓣图书数据并写入MySQL'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            Scrapy爬取豆瓣图书数据并写入MySQL</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "en",
+    clientID: "9406f48c8041bdb83500",
+    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
+    repo: "sexyphoenix.github.io",
+    owner: "sexyphoenix",
+    admin: ["sexyphoenix"],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+});
+gitalk.render('gitalk-container');
+</script>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#目的"><span class="toc-text">目的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一、如何在Oracle-VM-VirtualBox安装centos"><span class="toc-text">一、如何在Oracle VM VirtualBox安装centos</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-下载centos7"><span class="toc-text">1. 下载centos7</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-安装centos"><span class="toc-text">2. 安装centos</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、-如何在内网里实现虚拟机访问外网、物理主机以及物理主机访问虚拟机"><span class="toc-text">二、 如何在内网里实现虚拟机访问外网、物理主机以及物理主机访问虚拟机</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>
