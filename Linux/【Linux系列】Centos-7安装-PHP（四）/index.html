@@ -208,27 +208,27 @@
 <p>查看Centos源是否有PHP。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list php*</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/1.png" alt="1"></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/PHP/1.png" alt="1"></p>
 <p>进一步查看PHP的版本。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum info php.x86_64</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/2.png" alt="2"></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/PHP/2.png" alt="2"></p>
 <p>上图看出自带的PHP源版本太低，需要更高版本的。</p>
 <p>设置高版本的PHP源。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh https://mirror.webtatic.com/yum/el7/epel-release.rpm</span><br><span class="line">rpm -ivh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm</span><br><span class="line">yum list php* #更新源并查看现在的PHP源</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/3.png" alt="3"></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/PHP/3.png" alt="3"></p>
 <p>现在已有php72版本，安装。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y php72w-fpm  php72w-fpm php72w-cli.x86_64 php72w-common.x86_64 php72w.x86_64 php72w-dba.x86_64 php72w-devel.x86_64 php72w-embedded.x86_64 php72w-enchant.x86_64 php72w-gd.x86_64 php72w-imap.x86_64 php72w-interbase.x86_64 php72w-intl.x86_64 php72w-ldap.x86_64 php72w-mbstring.x86_64 php72w-mysqlnd.x86_64  php72w-odbc.x86_64 php72w-opcache.x86_64 php72w-pdo.x86_64 php72w-pdo_dblib.x86_64 php72w-soap.x86_64 php72w-xml.x86_64 php72w-xmlrpc.x86_64 php72w-mbstring.x86_64 php72w-mcrypt.x86_64 php-posix</span><br></pre></td></tr></table></figure>
 
 <p>安装成功后，查看php</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -v</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/4.png" alt="4"></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/PHP/4.png" alt="4"></p>
 <p>下面来新建一个网站站点。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service php-fpm start # 启动php</span><br><span class="line">systemctl enable php-fpm # 设置开机启动项</span><br><span class="line">ps -ef | grep php # 查看是否正常启动</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/5.png" alt="5"></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/PHP/5.png" alt="5"></p>
 <p>设置SELinux</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/selinux/config</span><br><span class="line">SELINUX=permissive</span><br></pre></td></tr></table></figure>
 
@@ -246,12 +246,12 @@
 <p>配置php-fpm</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/php-fpm.d/www.conf</span><br><span class="line"></span><br><span class="line">listen = /var/run/php-fpm/php7-fpm.sock </span><br><span class="line">listen.owner = nginx</span><br><span class="line">listen.group = nginx</span><br><span class="line">listen.mode = 0660</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/6.png" alt="6"></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/PHP/6.png" alt="6"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service php-fpm restart </span><br><span class="line">service nginx reload</span><br><span class="line">service nginx status</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/7.png" alt="7"></p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/PHP/7.png" alt="7"></p>
 <p>物理主机访问虚拟机站点，需要配置物理机的hosts<br>C:\Windows\System32\drivers\etc\hosts<br>192.168.10.18 devtest.plat.goods</p>
-<p>访问 <a href="http://devtest.plat.goods/index.php" target="_blank" rel="noopener">http://devtest.plat.goods/index.php</a><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/Centos/8.png" alt="8"></p>
+<p>访问 <a href="http://devtest.plat.goods/index.php" target="_blank" rel="noopener">http://devtest.plat.goods/index.php</a><br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Linux/PHP/8.png" alt="8"></p>
 
     </div>
     
