@@ -33,7 +33,7 @@
 
 <title>
     
-    分类: Linux |
+    分类: Linux, PHP |
     
     SexyPhoenix的博客
 </title>
@@ -159,7 +159,7 @@
                     <ol class="breadcrumb">
     
     <li>
-        Linux
+        Linux, PHP
     </li>
     
 </ol>
@@ -169,78 +169,29 @@
     <div class="post-content">
         <div class="post-head home-post-head">
             <h1 class="post-title">
-                <a href="/Linux/【Linux系列】Centos-7安装-Nginx（三）/">
-                    【Linux系列】Centos 7安装 Nginx（三）</a>
+                <a href="/Linux-PHP/【Linux系列】Centos-7安装-PHP（四）/">
+                    【Linux系列】Centos 7安装 PHP（四）</a>
             </h1>
             <div class="post-meta"> &bull;
                 <time class="post-date" datetime="" title="">
-                    2019年11月20日
+                    2019年11月22日
                 </time>
             </div>
         </div>
         <p class="brief">
             
             目的
-为了下面的Laravel部署，本篇开始安装Nignx服务器。
-防火墙设置
-在物理主机上查看nginx是否安装成功，需要开放虚拟机的80端口。
-用cmder登录到虚拟机
-12firewall-cmd --stat # 查看防火墙状...
-            
-        </p>
-    </div>
-</article>
+为了下面的Laravel部署，本篇开始安装PHP。
+设置PHP源
+查看Centos源是否有PHP。
+1yum list php*
 
-<article class="post">
-    
-    <div class="post-content">
-        <div class="post-head home-post-head">
-            <h1 class="post-title">
-                <a href="/Linux/【Linux系列】配置Centos-7的软件源（二）/">
-                    【Linux系列】配置Centos 7的软件源（二）</a>
-            </h1>
-            <div class="post-meta"> &bull;
-                <time class="post-date" datetime="" title="">
-                    2019年11月19日
-                </time>
-            </div>
-        </div>
-        <p class="brief">
-            
-            目的
-本文主要介绍以下内容：
-设置centos的国内软件源，默认源都是国外的下载软件超级麻烦。
-ssh登录下载一个shell或者cmder
-1ssh root@192.168.10.18 #上篇设置的ip
 
-下载wget
-1yum i...
-            
-        </p>
-    </div>
-</article>
+进一步查看PHP的版本。
+1yum info php.x86_64
 
-<article class="post">
-    
-    <div class="post-content">
-        <div class="post-head home-post-head">
-            <h1 class="post-title">
-                <a href="/Linux/【Linux系列】Centos-7安装以及网络配置（一）/">
-                    【Linux系列】Centos 7安装以及网络配置（一）</a>
-            </h1>
-            <div class="post-meta"> &bull;
-                <time class="post-date" datetime="" title="">
-                    2019年11月18日
-                </time>
-            </div>
-        </div>
-        <p class="brief">
-            
-            目的
-本文主要介绍以下两点：
-一. 如何在Oracle VM VirtualBox安装centos（已有VirtualBox）
-二. 如何在内网里实现虚拟机访问外网、物理主机以及物理主机访问虚拟机
-一、如何在Oracle VM Vir...
+
+上图看出自带的PHP源...
             
         </p>
     </div>
