@@ -22,8 +22,13 @@
 <meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
 
 
-<meta name="description" content="前言
-Laravel的队列可以用在轻量级的队列需求中。比如我们系统中的短信、邮件等功能，这些功能有一些普遍的特征，异步、重试、并发控制等。Laravel现在主要支持的队列服务有Null、Sync...">
+<meta name="description" content="目的
+本文主要有以下两点：
+一. 架构介绍
+二. 往期回顾
+内容
+一. 架构介绍高可用：简单的来说就是硬件故障服务依然可用，换言之，网站仍然可以访问、写入数据
+【高可用架构】这个系列就是对高可用...">
 
 
 <meta name="robots" content="all">
@@ -34,7 +39,7 @@ Laravel的队列可以用在轻量级的队列需求中。比如我们系统中�
 
 <title>
     
-    队列 |
+    【高可用架构】待部署的架构介绍 |
     
     SexyPhoenix的博客
 </title>
@@ -165,16 +170,16 @@ Laravel的队列可以用在轻量级的队列需求中。比如我们系统中�
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="队列">
+        <h1 id="【高可用架构】待部署的架构介绍">
             
-            队列
+            【高可用架构】待部署的架构介绍
             
         </h1>
         <div class="post-meta">
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <a class="category-link" href="/categories/PHP/">PHP</a>
+        <a class="category-link" href="/categories/架构/">架构</a>
     </span>
     
     
@@ -190,7 +195,7 @@ Laravel的队列可以用在轻量级的队列需求中。比如我们系统中�
     <span class="fa-wrap">
         <i class="fa fa-clock-o"></i>
         <span class="date-meta">
-            2019/09/06</span>
+            2019/11/27</span>
     </span>
     
     
@@ -200,22 +205,48 @@ Laravel的队列可以用在轻量级的队列需求中。比如我们系统中�
     </div>
     
     <div class="post-body post-content">
-        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><hr>
-<p>Laravel的队列可以用在轻量级的队列需求中。比如我们系统中的短信、邮件等功能，这些功能有一些普遍的特征，异步、重试、并发控制等。Laravel现在主要支持的队列服务有Null、Sync、Database、Redis、Beanstalkd、Sqs。<br>在我们的项目中（消息中心、人事）用的主要是redis，接下来我会介绍下队列基于redis驱动的运行机制。</p>
-<h4 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h4><hr>
-<p>Laravel启动后，加载config/app.php的providers数组中的服务提供者 QueueServiceProvider，在队列服务提供者中，已经注册了一系列相关服务。<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/6.png" alt="image"></p>
-<p>在.env配置文件中，我们设置了QUEUE_DRIVER为redis，系统启动后会自动生成Redis连接，同时注册了Work消费者，队列监听器以及错误服务。在queue.php和database.php配置中都默认了相关的redis设置。</p>
-<h4 id="任务调度"><a href="#任务调度" class="headerlink" title="任务调度"></a>任务调度</h4><hr>
-<p>调度如下：<br><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Laravel/7.png" alt="image"></p>
-<p>laravel 的队列服务由两个进程控制，一个是事件生产者（黑线），一个是事件消费者（黄线）。<br>有三个队列，主队列 queues：default（下面default代替），延时队列 queues：default：delayed（下面delayed代替），待处理队列  queues：default：reserved（下面reserved代替）。所有的队列事件都由事件消费者去消费主队列中的事件。（队列名称default在queue.php中被定义）</p>
-<h6 id="1-事件触发：dispatch-new-Event-；"><a href="#1-事件触发：dispatch-new-Event-；" class="headerlink" title="1. 事件触发：dispatch(new Event())；"></a>1. 事件触发：dispatch(new Event())；</h6><p>事件触发后，dispatch判断Event是否继承队列类，是，将事件分发到队列执行流程中。队列执行流程会根据Event的延时属性判断，否，将Event放到即时处理queues：default 队列中，是，将Event放入延时 queues：default：delayed 队列中。</p>
-<h6 id="2-消费：php-artisan-queue-work"><a href="#2-消费：php-artisan-queue-work" class="headerlink" title="2. 消费：php artisan queue:work"></a>2. 消费：php artisan queue:work</h6><p>图中A、B、C、D为消费者进程依次执行步骤，淡黄色背景的代码备注都为对队列的操作命令（predis 实现redis api），每个备注里面对事件的操作要么一起成功，要么一起失败（Lua脚本）。</p>
-<h6 id="3-A：-对delayed、default队列操作"><a href="#3-A：-对delayed、default队列操作" class="headerlink" title="3. A： 对delayed、default队列操作"></a>3. A： 对delayed、default队列操作</h6><p>A1：取出小于当前时间的（时间戳）所有Event，赋给val，删除delayed队列中0到val.length长度的Event（redis的有序集合有一个分数，有序集合根据这个分数从小到大排序，这里的时间戳就是分数）。<br>A2：将上面获取的Event，放入到主队列 default。</p>
-<h6 id="4-B：-对reserved、default队列操作"><a href="#4-B：-对reserved、default队列操作" class="headerlink" title="4. B： 对reserved、default队列操作"></a>4. B： 对reserved、default队列操作</h6><p>B1：取出小于当前时间的所有Event，赋给val，删除reserved队列中0到val长度的Event。<br>B2：将上面获取的Event，放入到主队列 default。</p>
-<h6 id="5-C：-对default、reserved队列操作"><a href="#5-C：-对default、reserved队列操作" class="headerlink" title="5. C： 对default、reserved队列操作"></a>5. C： 对default、reserved队列操作</h6><p>C1：取出主队列中的所有Event。<br>C2：将Event放入reserved，且记录Event的执行次数（保留Event，由D执行后，根据Event执行结果处理这些Event）。</p>
-<h6 id="6-D：-处理Event（由C步骤得到的Event，交给D）"><a href="#6-D：-处理Event（由C步骤得到的Event，交给D）" class="headerlink" title="6. D： 处理Event（由C步骤得到的Event，交给D）"></a>6. D： 处理Event（由C步骤得到的Event，交给D）</h6><p>根据得到的Event依次执行（也就是通知监听这个Event的所有监听者），同时删除reserved队列的相对应的Event（无论执行失败还是成功），如果执行失败会将任务放入reserved队列中，执行时间为1540097000（1540096910 + 90，90为设置的延时时间），以便下次执行。</p>
-<h4 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h4><hr>
-<p>以上就是Laravel队列所有的执行流程，当然里面包括执行失败的错误处理、如何通知监听者等细节都没讲，大家可以自行分析代码理解。</p>
+        <h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><hr>
+<p>本文主要有以下两点：</p>
+<p>一. 架构介绍</p>
+<p>二. 往期回顾</p>
+<h4 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h4><hr>
+<h6 id="一-架构介绍"><a href="#一-架构介绍" class="headerlink" title="一. 架构介绍"></a>一. 架构介绍</h6><p>高可用：简单的来说就是<strong>硬件故障服务依然可用</strong>，换言之，网站仍然可以访问、写入数据</p>
+<p>【高可用架构】这个系列就是对高可用服务的一个简单的实践，会通过一篇篇博文，详细的勾勒出架构的全貌</p>
+<p>当然博文要做的也只是一个<strong>基础的架构</strong>，不会太复杂，也是对所学的一个基础实践。也希望能够帮到对这方面有所欠缺的人</p>
+<p>下面开始进入正题，首先看一下待部署的架构图</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Architecture/1.png" alt="1"></p>
+<h6 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h6><ol>
+<li><p>部署三台虚拟机，一台作为负载均衡器，两台作为APP Server。（资源有限，Session、Mysql服务器也会部署到这三台）</p>
+</li>
+<li><p>部署Laravel项目到负载均衡器中</p>
+</li>
+<li><p>用官网的Envoy工具，将Laravel项目统一部署到两台APP Server上</p>
+</li>
+<li><p>实现Nginx负载均衡</p>
+</li>
+<li><p>部署两台Session服务器，也就是部署两个Redis节点，保持会话</p>
+</li>
+<li><p>实现Redis主从架构，实现Ression服务器的高可用</p>
+</li>
+<li><p>部署两台Mysql服务器</p>
+</li>
+<li><p>实现Mysql主从架构以及读写分离</p>
+</li>
+</ol>
+<p>以上步骤中，第1、2、5、7已经在【Linux系列】中实现，这里不再赘述，详情请看下面的往期回顾。</p>
+<p>本系列主要实现的就是nginx负载均衡、Envoy部署、Redis主从架构、Mysql主从架构。</p>
+<h6 id="二-往期回顾"><a href="#二-往期回顾" class="headerlink" title="二. 往期回顾"></a>二. 往期回顾</h6><p>以后的【高可用架构】链接也会更新到这里</p>
+<p>【Linux系列】</p>
+<p><a href="https://www.cnblogs.com/SexyPhoenix/p/11883087.html" target="_blank" rel="noopener">Centos 7安装以及网络配置（一）</a></p>
+<p><a href="https://www.cnblogs.com/SexyPhoenix/p/11887253.html" target="_blank" rel="noopener">配置Centos 7的软件源（二）</a></p>
+<p><a href="https://www.cnblogs.com/SexyPhoenix/p/11896774.html" target="_blank" rel="noopener">Centos 7安装 Nginx（三）</a></p>
+<p><a href="https://www.cnblogs.com/SexyPhoenix/p/11909913.html" target="_blank" rel="noopener">Centos 7安装 PHP（四）</a></p>
+<p><a href="https://www.cnblogs.com/SexyPhoenix/p/11926268.html" target="_blank" rel="noopener">Centos 7安装 Mysql8.0（五）</a></p>
+<p><a href="https://www.cnblogs.com/SexyPhoenix/p/11928281.html" target="_blank" rel="noopener">Centos 7安装 Redis（六）</a></p>
+<p><a href="https://www.cnblogs.com/SexyPhoenix/p/11935734.html" target="_blank" rel="noopener">Centos 7部署Laravel项目（七）</a></p>
+<p><a href="https://www.cnblogs.com/SexyPhoenix/p/11937141.html" target="_blank" rel="noopener">Centos7安装Samba并将工作区挂载到win（八）</a></p>
+<p>【高可用架构】</p>
+<p><a href="https://www.cnblogs.com/SexyPhoenix/p/11940745.html" target="_blank" rel="noopener">待部署的架构介绍</a></p>
 
     </div>
     
@@ -234,17 +265,11 @@ Laravel的队列可以用在轻量级的队列需求中。比如我们系统中�
 </article>
 <div class="article-nav prev-next-wrap clearfix">
     
-    <a href="/PHP/OAuth2-0/" class="pre-post btn btn-default" title='OAuth2.0'>
-        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-        <span class="hidden-xs">
-            OAuth2.0</span>
-    </a>
     
-    
-    <a href="/PHP/用户认证/" class="next-post btn btn-default" title='用户认证'>
+    <a href="/Linux/【Linux系列】Centos7安装Samba并将工作区挂载到win（八）/" class="next-post btn btn-default" title='【Linux系列】Centos7安装Samba并将工作区挂载到win（八）'>
         <span class="hidden-lg">下一篇</span>
         <span class="hidden-xs">
-            用户认证</span><i class="fa fa-angle-right fa-fw"></i>
+            【Linux系列】Centos7安装Samba并将工作区挂载到win（八）</span><i class="fa fa-angle-right fa-fw"></i>
     </a>
     
 </div>
@@ -280,7 +305,7 @@ gitalk.render('gitalk-container');
             文章目录
         </h3>
         
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#背景知识"><span class="toc-text">背景知识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#任务调度"><span class="toc-text">任务调度</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-事件触发：dispatch-new-Event-；"><span class="toc-text">1. 事件触发：dispatch(new Event())；</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-消费：php-artisan-queue-work"><span class="toc-text">2. 消费：php artisan queue:work</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-A：-对delayed、default队列操作"><span class="toc-text">3. A： 对delayed、default队列操作</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-B：-对reserved、default队列操作"><span class="toc-text">4. B： 对reserved、default队列操作</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#5-C：-对default、reserved队列操作"><span class="toc-text">5. C： 对default、reserved队列操作</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#6-D：-处理Event（由C步骤得到的Event，交给D）"><span class="toc-text">6. D： 处理Event（由C步骤得到的Event，交给D）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结尾"><span class="toc-text">结尾</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#目的"><span class="toc-text">目的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内容"><span class="toc-text">内容</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#一-架构介绍"><span class="toc-text">一. 架构介绍</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#步骤"><span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#二-往期回顾"><span class="toc-text">二. 往期回顾</span></a></li></ol></li></ol></li></ol>
         
     </div>
 </aside>
