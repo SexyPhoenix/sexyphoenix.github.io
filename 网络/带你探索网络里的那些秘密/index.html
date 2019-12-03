@@ -1,0 +1,493 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="SexyPhoenix的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://sexyphoenix.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="PHP,Laravel,Vue,MySQL,Redis,Elasticsearch">
+
+
+<meta name="description" content="背景
+网络，网络…
+虽然只是一个简单的名词，但是她的背后却掩藏着太多太多的故事以及知识。
+穷其编程的一生，或许也只能探索出那冰山一角，嗨…
+小时虽知，学海无涯，却毫不知意。玩乃天性，却空流时光。...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    带你探索网络里的那些秘密 |
+    
+    SexyPhoenix的博客
+</title>
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://raw.githubusercontent.com/SexyPhoenix/sexyphoenix.github.io/master/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <div class="branding">
+            
+            <h2>
+                I do and I understand
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://sexyphoenix.github.io">
+                        SexyPhoenix的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/架构/"><i class="fa "></i>
+                                架构</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/PHP/"><i class="fa "></i>
+                                PHP</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/Python/"><i class="fa "></i>
+                                Python</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/Linux/"><i class="fa "></i>
+                                Linux</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/数据库/"><i class="fa "></i>
+                                数据库</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/网络/"><i class="fa "></i>
+                                网络</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/安全/"><i class="fa "></i>
+                                安全</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/其他/"><i class="fa "></i>
+                                其他</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于我</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="带你探索网络里的那些秘密">
+            
+            带你探索网络里的那些秘密
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/网络/">网络</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/09/06</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><hr>
+<p>网络，网络…</p>
+<p>虽然只是一个简单的名词，但是她的背后却掩藏着太多太多的故事以及知识。</p>
+<p>穷其编程的一生，或许也只能探索出那冰山一角，嗨…</p>
+<p>小时虽知，学海无涯，却毫不知意。玩乃天性，却空流时光。憾…</p>
+<p>so，矫情之余，我们来探索一下网络究竟是怎么传输的。</p>
+<h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><hr>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/1.png" alt="1"></p>
+<p>探索网络的范围，都在上图有所展示（另存为看大图）。</p>
+<h4 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h4><hr>
+<h6 id="一-生成HTTP请求消息"><a href="#一-生成HTTP请求消息" class="headerlink" title="一. 生成HTTP请求消息"></a>一. 生成HTTP请求消息</h6><p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/2.png" alt="2"></p>
+<p>打开一个网站，都是从浏览器中输入网址开始，我们的探索也是从这里开始。</p>
+<p><strong>https:</strong> 是协议，告诉浏览器我们要访问的目标，而https: 代表的就是访问Web服务器，当然也有其他的协议。比如ftp:访问的就是FTP服务器等。</p>
+<p><strong>sexyphoenix.github.io</strong> 是Web服务器域名，可以告诉我们在哪里可以找到Web服务器。</p>
+<p><strong>about/</strong> 是Web服务器里面的文件路径名，这里的about是目录名，全路径可能是about/index.md，而index.md应该被github掩藏了。</p>
+<p>浏览器首先要做的就是对URL进行解析，知道我们要访问的是sexyphoenix.github.io这个Web服务器上文件路径为about目录下的默认文件。</p>
+<p>知道了要访问的目标，接下来浏览器就要生成HTTP的请求信息，介绍到这，就要聊一聊HTTP协议了。</p>
+<p>HTTP协议规定了客户端和服务器通信的内容和步骤，简单来说，就是两个部分<strong>“对什么”</strong>做<strong>“怎样的操作”</strong>。</p>
+<p>“对什么”上面已经解析过了，“怎样的操作”就是HTTP主要的方法：POST、GET、DELETE、PUT等。HTTP格式看下图。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/3.png" alt="3"></p>
+<h6 id="二、查询Web服务器的IP地址"><a href="#二、查询Web服务器的IP地址" class="headerlink" title="二、查询Web服务器的IP地址"></a>二、查询Web服务器的IP地址</h6><p>生成HTTP信息之后，接下来，我们就要发送信息给Web服务器了。但此时我们突然发现我们只有Web服务器的域名，并不知道服务器究竟在哪里。</p>
+<p>那么我们应该如何像现实中送快递一样，快速的定位到哪一幢哪一室，讲到这里，想必大家都有所意会了，IP。</p>
+<blockquote>
+<p><strong>IP地址</strong></p>
+</blockquote>
+<p>IP地址实际就是4个字节，32比特的数字，每8个比特为1组，具体看下图十进制表示。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/4.png" alt="4"></p>
+<p>我们发送的信息，就是通过子网的集成器找到最近的路由器，再通过路由器（基于IP设计）找到<strong>最优抵达Web服务器</strong>的路由器，这样不断的查找网络中的路由器节点，最终抵达Web服务器。</p>
+<p>注意，我们的Web服务器的IP是最终的目的地，它是贯穿路由器—N—路由器—Web服务器整个环节的，是判断整个网络走向的依据，存在控制信息中。</p>
+<p>路由器都有自己的IP，路由器到路由器就是<strong>根据Web服务器的IP</strong>（走向），通过本身的IP来移动。</p>
+<p>到这里，我们也就了解清楚了通过IP，发送的信息最终可以抵达Web服务器。</p>
+<p>那么，我们现在的问题就是如何通过Web服务器的域名找到它的IP？ 讲到这里，想必大家又都有所意会了，DNS。</p>
+<blockquote>
+<p><strong>域名解析</strong></p>
+</blockquote>
+<p>简单的来说，DNS服务器维持了一系列关系表，也就是域名和IP对于的关系表。浏览器向最近的DNS服务器询问“sexyphoenix.github.io”的IP地址是多少，DNS服务器会回答Web服务器IP为xxx。这一步也叫<strong>域名解析</strong></p>
+<p>讲到这里，我们就要深究一下，浏览器究竟是怎样向DNS服务器发送查询的？</p>
+<p>首先，我们要清楚一点，浏览器等应用程序本身是<strong>不能发送信息</strong>的，而是<strong>委托给操作系统</strong>来发送的。</p>
+<p>而操作系统有一个超级出名的库，<strong>Socket库</strong>，它是调用网络功能的程序组件集合。</p>
+<p>Socket库里面有一个函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IP信息 = gethostbyname(&quot;sexyphoenix.github.io&quot;) # 看，应用程序查询IP很简单，调用一个函数即可</span><br></pre></td></tr></table></figure>
+
+<p>发送数据有两种协议，UDP和TCP，域名查询用的是UDP。数据短速度快。</p>
+<p>介绍了域名解析，下面来了解一下DNS服务器的工作。</p>
+<blockquote>
+<p><strong>DNS服务器</strong></p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/5.png" alt="5"></p>
+<p>在上面已经提到过了，DNS服务器维护了一个关系表，上图的类型A表示域名对应IP地址，MX表示域名对应的邮箱服务器，不同的类型，返回的信息有所不同。</p>
+<p>DNS服务器的工作就是根据域名和类型，查找相关的记录，并向应用程序返回响应信息。</p>
+<blockquote>
+<p><strong>DNS服务器查找</strong></p>
+</blockquote>
+<p>全球共有13台根域名服务器，根域名用“.”表示，其次才是下面的一级域名“com.”、“net.”等，我们平时访问的域名“sexyphoenix.github.io.”后面有一个点，平时被省略。</p>
+<p>我们用一张图来看下查找顺序，更清楚些。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/6.png" alt="6"></p>
+<p>先找最近的DNS服务器（一般是本机设置的），没有再从<strong>根域</strong>找，然后不断的向下找，直到找到我们Web服务器IP所在的DNS服务器。</p>
+<h6 id="三、TCP-IP传输数据"><a href="#三、TCP-IP传输数据" class="headerlink" title="三、TCP/IP传输数据"></a>三、TCP/IP传输数据</h6><p>通过DNS服务器查询，我们已经得到的Web服务器的IP，接下来就要开始发送数据了。而这部分也是比较难写的一部分，因为我们要深入协议栈的内部，去了解它的结构。</p>
+<p>我们都知道数据的传输，都是由上层委托给下层工作的。应用程序将发送的信息的行为委派给了操作系统，而操作系统内部就是通过<strong>协议栈</strong>来工作的。</p>
+<p>来看下操作系统协议栈图。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/7.png" alt="7"></p>
+<p>上部分是TCP协议和UDP协议，都是负责数据的收发部分，区别在于TCP是面向连接的，是一种可靠的协议，而UDP只负责发送，不保证准确到达。</p>
+<p>下部分是IP协议，负责发送网络包，其中还包括ICMP协议（检查发送过程是否存在错误）和ARP协议（查询MAC地址）。</p>
+<blockquote>
+<p>数据收发</p>
+</blockquote>
+<p>在查询IP地址的时候，我们用到了Socket库，这里同样也需要用到它。</p>
+<p>不过我们这里需要调用多个组件，才能实现数据的收发，从功能上可以分为四个部分。</p>
+<ol>
+<li><p>创建套接字 （new Socket）</p>
+</li>
+<li><p>连接服务器的套接字 （connection）</p>
+</li>
+<li><p>收发数据 （write、read）</p>
+</li>
+<li><p>删除套接字 （close）</p>
+</li>
+</ol>
+<p>在讲之前，我们先了解下套接字。</p>
+<p>套接字在数据收发中是相当重要的，它是一块内存空间，里面存放着很重要的的<strong>控制信息</strong>。</p>
+<p>这些控制信息存放着通信对象的IP地址、端口、连接状态、响应时间、数据收发情况等等，只有这些存在，才能知道数据发送到哪里，又发送了多少，有没有错误等等。</p>
+<h6 id="创建套接字"><a href="#创建套接字" class="headerlink" title="创建套接字"></a>创建套接字</h6><p>创建套接字还是非常简单的，直接调用Socket库中的socket组件即可，创建完成之后会返回一个标识符，标识符的主要作用就是为了区别不同的套接字。</p>
+<h6 id="连接服务器的套接字"><a href="#连接服务器的套接字" class="headerlink" title="连接服务器的套接字"></a>连接服务器的套接字</h6><p>连接服务器用到的是connect组件，参数有标识符、服务器的IP、端口等，相当于和服务器之间连接了一条数据管道，后期数据在其中流通。</p>
+<p>同时在这里也会发生著名的“<strong>三次握手</strong>”。</p>
+<p>在刚发生连接阶段，管道里面是没有数据的，但是会有控制信息，这些控制信息包括TCP头部，以太网头部、IP头部。</p>
+<blockquote>
+<p>控制信息</p>
+</blockquote>
+<p>根据层级来，我们会先生成TCP头部，TCP头部格式有很多字段，其中重要的就是双方的端口，序号，ACK号，控制位，窗口等。稍微了解一下这些字段的作用。</p>
+<p><strong>端口</strong></p>
+<p>端口和IP是一同存在的，在互联网早期的时候，公司联网都是直接用公网IP的，但随着互联网的发展，公网IP越来越少，于是就出现了公网和内网的区别。</p>
+<p>内网IP范围</p>
+<ol>
+<li><p>10.0.0.0 ~ 10.255.255.255</p>
+</li>
+<li><p>172.16.0.0 ~ 172.31.255.255</p>
+</li>
+<li><p>192.168.0.0 ~ 192.168.255.255</p>
+</li>
+</ol>
+<p>每个公司的内部都使用这些内网IP，再通过唯一的一个公网IP访问互联网，这样就可以节省大量的公网IP。</p>
+<p>那么公司的这些设置内网IP的电脑是如何通过唯一的公网IP访问互联网呢？ 互联网返回的信息又是怎么通过唯一的公网IP，定位到公司的某一台电脑上的？</p>
+<p> <strong>地址转换（NAT）</strong>，这个技术就解决了上面的问题，它的原理就是在转发网络包时对IP头部地址和端口进行改写。</p>
+<p>而端口在其中的作用至关重要，它可以让路由器（公网IP）知道是那一台内网的电脑与互联网通信，具体看下图。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/8.png" alt="8"></p>
+<p>公司IP为192.168.23.183的电脑，通过49158端口向互联网发送连接，当到达公司的公网路由器的时候，路由器的IP模块会对控制信息进行改写，最后变成IP为121.225.19.59，端口为1001和通信对象通信。</p>
+<p>同时将这条记录保存在路由器上，当通信对象返回信息时，会通过表格中的信息找到对应的内网电脑IP。</p>
+<p><strong>序号</strong></p>
+<p>发送方告诉接收方该网络包在所有发送的数据的第几个字节，序号的初始值是在连接阶段随机生成的（防止攻击者猜到），在下面的收发数据阶段，就是以这个序号为基数。</p>
+<p><strong>ACK号</strong></p>
+<p>接收方告诉发送发已经收到所有数据的第几个字节，相当于序号+发送的数据长度。</p>
+<p><strong>控制位</strong></p>
+<p>每一个比特代表不同的控制信息，看下图。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/9.png" alt="9"></p>
+<p>图中解释了比较重要的控制位。</p>
+<p><strong>窗口</strong></p>
+<p>接收方告诉发送方的窗口大小，如果接收方接受的速度比较慢，一起传送的数据量就会变小相当于控制了我们传送数据的快慢。</p>
+<p>介绍了TCP头部的关键字段，接下来我们开始进入连接。</p>
+<p>首先，我们会将客户端的控制位的SYN（1）、生成随机序号M、窗口大小等，再通过其他层，到达服务器端（第一次握手）。</p>
+<p>服务器收到SYN为1的信息，知道客户端要和我连接，生成ACK号（M+1）、服务器随机序号N（通信是双向的，这时的服务器也相当于发送方）、控制位SYN（1）、窗口等发送（第二次握手）。</p>
+<p>客户端收到服务器端的信息，得到ACK号，知道连接正常，发送ACK号（N+1，服务器端的序号）、控制位SYN（1），告诉服务器已建立连接（第三次握手）。</p>
+<h6 id="收发数据"><a href="#收发数据" class="headerlink" title="收发数据"></a>收发数据</h6><p>管道连接建立成功后，就进入了数据收发阶段。</p>
+<p>我们发送的信息一般都是比较大的，不可能一次性发送完毕，所以在TCP模块，就会将应用数据切分成数据块，切分的每个数据块（MSS，最大数据长度）加上TCP头部，IP头部不能超过MTU大小（MTU，最大传输单元）。</p>
+<p>接下来，交给IP模块，生成IP头部和MAC头部信息，再通过网卡驱动，网卡设备将数字信息转变成电信号，传输到接收方。接收方收到信息，会返回ACK号，重复以上步骤，直到接收方收到所有数据。</p>
+<p>接收方收到全部数据后，同样会向发送方发送数据，下面的步骤都和上面差不多了，这里不再赘述。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/10.png" alt="10"></p>
+<h6 id="删除套接字"><a href="#删除套接字" class="headerlink" title="删除套接字"></a>删除套接字</h6><p>和接收方通信完成之后，套接字不会再使用，这时就可以删除套接字了。</p>
+<p>套接字删除可以由任何一方发起，这里假设接受方发起，下面就来讲讲著名的“<strong>四次挥手</strong>”。</p>
+<p>接收方收到全部数据后，等待一会就会删除套接字。</p>
+<ol>
+<li><p>接收方生成断开信息，即将TCP的头部控制位的FIN设置为1，发送给客户端。</p>
+</li>
+<li><p>客户端返回ACK号，表示发送的信息无误。</p>
+</li>
+<li><p>客户端所有数据处理完成后，向服务器发送FIN为1的断开信息。</p>
+</li>
+<li><p>服务器返回ACK号，表示发送的信息无误，等待一会，发送方和接收方都删除套接字。</p>
+</li>
+</ol>
+<p>讲到这里，数据收发的绝大数内容就讲完了，接下来我们聊一聊IP模块。</p>
+<p><strong>IP模块</strong></p>
+<p>前面提到过，在IP模块会生成IP头部和以太网头部。那么这两个头部究竟有什么作用？</p>
+<p>为了便于理解，我们这里就讲的简单一些。</p>
+<p>发送的数据到达子网的集线器或者交换机，通过MAC表，找到下一个转发设备的MAC地址，以“以太网协议”传输到下一个转发设备。</p>
+<p>转发设备根据目标地址的IP和“IP协议”判断下一个转发设备的IP，再通过MAC地址，传输到下一个转发设备。</p>
+<p>就这样，经过多个转发设备的接力后，网络包最终到达接收方的网络设备。</p>
+<p>总结：<strong>IP协议根据目标地址判断一下个IP转发设备的位置，再通过以太网协议将网络包输出到下一个转发设备</strong>。</p>
+<h6 id="四、到达Web服务器"><a href="#四、到达Web服务器" class="headerlink" title="四、到达Web服务器"></a>四、到达Web服务器</h6><p>其实在到达Web服务器之前，我们也应该讲讲数字信号是如何转化为电子信号的？ 数据又是如何通过运营商到达Web服务器的？ </p>
+<p>只是这部分实在过于复杂，也多数跟硬件以及运维方向有关，这里就不讲了。</p>
+<p>首先，我们来讲一讲Web服务器的部署。</p>
+<blockquote>
+<p>Web服务器的部署有三种方式</p>
+</blockquote>
+<ol>
+<li><p>直接部署在公司的内网。</p>
+</li>
+<li><p>公司的内网和Web服务器分开部署。在接入网之后，部署统一防火墙，再分别进去内网和服务器。</p>
+</li>
+<li><p>web服务器部署在运营商的数据中心。</p>
+</li>
+</ol>
+<p>三种方式自上而下，性能和安全上会越来越好，只是管理上可能会麻烦些。</p>
+<p>为了安全和分担负载，Web服务器前面会部署防火墙，可能还会有负载均衡器、缓存服务器、内容分发等等。</p>
+<p>数据在经过层层过滤后，最终到达Web服务器，服务器的程序和上面创建连接的步骤稍有不同。</p>
+<ol>
+<li><p>首先是创建套接字（socket）。</p>
+</li>
+<li><p>绑定套接字和端口号（bind）。</p>
+</li>
+<li><p>等待连接（listen）。</p>
+</li>
+<li><p>接受连接（accept）。</p>
+</li>
+</ol>
+<p>服务器的程序会一直等待客户端的连接。</p>
+<p>在接收到客户端的请求后，Web服务器根据URI转换为实际的文件名，并作出响应。格式如下。</p>
+<p><img src="https://raw.githubusercontent.com/SexyPhoenix/Blog/master/static/Network/11.png" alt="11"></p>
+<p>到这里，我们所有的内容就到这里了。</p>
+<p>最后，祝大家每天身体健康，开心编程，看的开心。嘿…</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://sexyphoenix.github.io" target="_blank">SexyPhoenix的博客</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/安全/HTTPS部署/" class="pre-post btn btn-default" title='HTTPS部署'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            HTTPS部署</span>
+    </a>
+    
+    
+    <a href="/数据库/索引优化/" class="next-post btn btn-default" title='索引优化'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            索引优化</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "en",
+    clientID: "9406f48c8041bdb83500",
+    clientSecret: "44ad74609a5bdd6dbe8e72380db08b0e64b2a854",
+    repo: "sexyphoenix.github.io",
+    owner: "sexyphoenix",
+    admin: ["sexyphoenix"],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+});
+gitalk.render('gitalk-container');
+</script>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#正文"><span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#一-生成HTTP请求消息"><span class="toc-text">一. 生成HTTP请求消息</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#二、查询Web服务器的IP地址"><span class="toc-text">二、查询Web服务器的IP地址</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#三、TCP-IP传输数据"><span class="toc-text">三、TCP/IP传输数据</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#创建套接字"><span class="toc-text">创建套接字</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#连接服务器的套接字"><span class="toc-text">连接服务器的套接字</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#收发数据"><span class="toc-text">收发数据</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#删除套接字"><span class="toc-text">删除套接字</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#四、到达Web服务器"><span class="toc-text">四、到达Web服务器</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>
